@@ -13,6 +13,8 @@ from ai_github_developer.actions import (
     REPO_DIRECTORY,
 )
 
+import pyperclip
+
 from rich import print
 from rich.console import Console
 from rich.theme import Theme
