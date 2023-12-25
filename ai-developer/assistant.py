@@ -147,3 +147,55 @@ def create_assistant():
 
 if __name__ == "__main__":
     create_assistant()
+
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "rollback",
+                        "description": "Roll back to a specific commit",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "commit_hash": {
+                                    "type": "string",
+                                    "description": "The hash of the commit to roll back to"
+                                }
+                            },
+                            "required": ["commit_hash"]
+                        }
+                    }
+                },
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "reset",
+                        "description": "Reset the current HEAD to the specified state",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "mode": {
+                                    "type": "string",
+                                    "description": "Can be 'soft', 'mixed', or 'hard'"
+                                }
+                            },
+                            "required": ["mode"]
+                        }
+                    }
+                },
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "cherrypick",
+                        "description": "Apply the changes introduced by some existing commits",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "commit_hash": {
+                                    "type": "string",
+                                    "description": "The hash of the commit to cherry-pick"
+                                }
+                            },
+                            "required": ["commit_hash"]
+                        }
+                    }
+                }

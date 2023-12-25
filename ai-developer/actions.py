@@ -152,3 +152,45 @@ def reset(sandbox: Sandbox, args: Dict[str, Any]) -> str:
 def cherrypick(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     # Code to perform a git cherrypick operation
     return 'success'
+
+def rollback(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    repo_directory = "/home/user/repo"
+    commit_hash = args['commit_hash']
+    print_sandbox_action('Rolling back to commit', commit_hash)
+
+    git_rollback_proc = sandbox.process.start_and_wait(f"git -C {repo_directory} reset --hard {commit_hash}")
+    if git_rollback_proc.exit_code != 0:
+        error = f"Error rolling back: {git_rollback_proc.stdout}\n\t{git_rollback_proc.stderr}"
+        console.print("\t[bold red]Error:[/bold red]", error)
+        return error
+
+    return 'success'
+
+
+def reset(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    repo_directory = "/home/user/repo"
+    mode = args['mode'] # 'soft', 'mixed', 'hard'
+    print_sandbox_action('Resetting repository', mode)
+
+    git_reset_proc = sandbox.process.start_and_wait(f"git -C {repo_directory} reset --{mode}")
+    if git_reset_proc.exit_code != 0:
+        error = f"Error resetting: {git_reset_proc.stdout}\n\t{git_reset_proc.stderr}"
+        console.print("\t[bold red]Error:[/bold red]", error)
+        return error
+
+    return 'success'
+
+
+def cherrypick(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    repo_directory = "/home/user/repo"
+    commit_hash = args['commit_hash']
+    print_sandbox_action('Cherry-picking commit', commit_hash)
+
+    git_cherrypick_proc = sandbox.process.start_and_wait(f"git -C {repo_directory} cherry-pick {commit_hash}")
+    if git_cherrypick_proc.exit_code != 0:
+        error = f"Error during cherry-pick: {git_cherrypick_proc.stdout}\n\t{git_cherrypick_proc.stderr}"
+        console.print("\t[bold red]Error:[/bold red]", error)
+        return error
+
+    return 'success'
+
