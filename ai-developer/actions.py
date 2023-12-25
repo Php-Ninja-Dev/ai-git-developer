@@ -137,3 +137,18 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         return error
 
     return "success"
+
+
+def rollback(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    # Code to perform a git rollback operation
+    return 'success'
+
+
+def reset(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    # Code to perform a git reset operation
+    return 'success'
+
+
+def cherrypick(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    # Code to perform a git cherrypick operation
+    return 'success'
