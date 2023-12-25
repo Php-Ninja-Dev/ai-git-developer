@@ -1,29 +1,28 @@
-## Documention
 
-This document outlines the necessary steps and provides guidance for setting up and using the AI Developer assistant.
+# Repository Selection
 
-The AI Developer is essentially a sophisticated framework that leverages the capabilities of GPT-4-Turbo to assist developers in working with their codebases in the cloud. Originating from an example by E2B-dev, it has been transformed into a much more versatile and powerful tool.
+This repository provides an interface for the AI developer to interact with different 
+storage options for managing the codebases. Currently, the AI developer can work with
+three types of storage:
 
-### Initial Steps
-1. First, make sure you have the Git Command Line Interface (gh) installed as it is required to operate the AI Developer. You can install it by following these commands:
-```sh
-sudo apt update
-sudo apt install gh
-```
-2. Clone the repository where AI Developer is hosted.
-3. Navigate to the directory where you cloned the repo, and specifically to the ai-github-developer directory.
-4. Follow the instructions in the README for setting up the environment and dependencies.
+1. GitHub Repository (Remote)
+2. FTP Server (Remote)
+3. Local Filesystem (Either remote or local depending on the execution environment)
 
-### Setup
+The user will be prompted to select the type of storage they prefer when initiating 
+their tasks. It is crucial to set up the appropriate access tokens and credentials 
+for GitHub and FTP to ensure seamless operation.
 
-After you have the code and the necessary tools, you'll need to
+## Update for Selection Process
 
-1. Ensure your `.env` is properly configured with the necessary API keys.
-2. Create an AI assistant by executing `poetry run create-ai-assistant`. This is a mandatory step as you will need the assistant ID for proper configuration.
-3. Set the assistant ID in your `.env` file and make sure it is correctly referenced by the application.
+We have now updated the selection process to make it more intuitive for the user. 
+When prompted, the user will select their desired repository by entering:
 
-After completing these steps, you will have set up the AI Developer successfully.
+- `1` for GitHub Repository
+- `2` for FTP Server
+- `3` for Local Filesystem
 
-### Usage
-
-Refer to the README.md for instructions on how to start and use your new AI developer assistant to manage your codebase tasks efficiently and effectively.
+The system will then proceed based on the user's selection and provide prompts for
+the necessary information for that specific storage type. This new process aims to
+streamline the setup and ensure that the AI developer can access the specified
+storage without any issues.
