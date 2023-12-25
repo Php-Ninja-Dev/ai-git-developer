@@ -6,6 +6,8 @@ An AI assistant for developers, originally based on a single example from E2B-de
 
 A custom AI assistant that can clone any GitHub repository to its remote cloud environment, work on the repo there, and then make pull request to GitHub.
 
+**Notice: The action `save_content_to_file` overwrites the existing file, hence always ensure to provide the complete updated file content when using this function.**
+
 The AI developer uses E2B sandboxes for the remote execution of tasks. We acknowledge the initial example provided by E2B-dev, which has been extensively customized and expanded for this project.
 
 ### Features
