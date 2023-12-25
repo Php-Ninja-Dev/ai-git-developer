@@ -199,3 +199,72 @@ if __name__ == "__main__":
                         }
                     }
                 }
+
+# Entry for the new send_email functionality in the assistant's workflow
+from typing import List
+
+from dotenv import load_dotenv
+import openai
+from openai.types.beta.assistant_create_params import Tool
+
+load_dotenv()
+def create_assistant():
+    client = openai.Client()
+
+    functions: List[Tool] = [
+        # Existing functions
+        # ... (Other existing functions have not been modified and should remain as is)
+        {
+            "type": "function",
+            "function": {
+                "name": "send_email",
+                "description": "Send an email",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "smtp_server": {
+                            "type": "string",
+                            "description": "SMTP server address"
+                        },
+                        "smtp_port": {
+                            "type": "integer",
+                            "description": "SMTP port number"
+                        },
+                        "username": {
+                            "type": "string",
+                            "description": "Username for SMTP authentication"
+                        },
+                        "password": {
+                            "type": "string",
+                            "description": "Password for SMTP authentication"
+                        },
+                        "sender": {
+                            "type": "string",
+                            "description": "Email address of the sender"
+                        },
+                        "recipients": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of recipient email addresses"
+                        },
+                        "subject": {
+                            "type": "string",
+                            "description": "Subject of the email"
+                        },
+                        "body": {
+                            "type": "string",
+                            "description": "Body content of the email"
+                        }
+                    },
+                    "required": ["smtp_server", "smtp_port", "username", "password", "sender", "recipients", "subject", "body"]
+                }
+            }
+        }
+    ]
+
+    # ... (Rest of the assistant creation code)
+
+if __name__ == "__main__":
+    create_assistant()
