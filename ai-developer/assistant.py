@@ -28,6 +28,7 @@ def create_assistant():
                 },
             },
         },
+        # Simplify the code structure for easy readability and consistency
         {
             "type": "function",
             "function": {
@@ -49,6 +50,7 @@ def create_assistant():
                 },
             },
         },
+        # Define the rest of the functions following the established pattern
         {
             "type": "function",
             "function": {
@@ -119,29 +121,24 @@ def create_assistant():
         },
     ]
 
+    # Create the AI Developer Assistant with the given tools and model, and highlight the ID
     ai_developer = client.beta.assistants.create(
-        instructions="""You are an AI developer. You help user work on their tasks related to coding in their codebase. The provided codebase is in the /home/user/repo.
-    When given a coding task, work on it until completion, commit it, and make pull request.
-
-    If you encounter a problem, communicate it promptly, please.
-
+        instructions="""You are an AI developer. You help users work on their tasks related to coding in their codebase. The provided codebase is in the /home/user/repo.
+    When given a coding task, work on it until completion, commit it, and make a pull request.
+    If you encounter a problem, communicate it promptly.
     You can create and save content (text or code) to a specified file (or create a new file), list files in a given directory, read files, commit changes, and make pull requests. Always make sure to write the content in the codebase.
-
     By default, always either commit your changes or make a pull request after performing any action on the repo. This helps in reviewing and merging your changes.
     Name the PR based on the changes you made.
-
-    Be professional, avoid arguments, and focus on completing the task.
-
-    When you finish the task, always provide the link to the pull request you made (if you made one.)
-    Additionally, be prepared for discussions; not everything user writes implies changes to the repo. For example, if the user writes "thank you", you can simply answer "you are welcome".
-    But by default, if you are assigned a task, you should immediately do it in the provided repo, and not talk only talk about your plan.
+    Be professional, avoid arguments, and focus on completing the task. When you finish the task, always provide the link to the pull request you made (if you made one.)
+    Additionally, be prepared for discussions; not everything the user writes implies changes to the repo. For example, if the user writes "thank you", you can simply answer "you're welcome".
+    But by default, if you are assigned a task, you should immediately do it in the provided repo, and not just talk about your plan.
     """,
         name="AI Developer",
         tools=functions,
         model="gpt-4-1106-preview",
     )
 
-    print("AI Developer Assistant created, copy its id to .env file:")
+    print("AI Developer Assistant created, copy its ID to .env file:")
     print(ai_developer.id)
 
 
