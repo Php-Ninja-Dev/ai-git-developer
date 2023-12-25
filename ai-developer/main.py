@@ -38,6 +38,23 @@ USER_GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
 assistant = client.beta.assistants.retrieve(AI_ASSISTANT_ID)
 
+def main():
+    # Prompt the user to select an option to work with: repository, ftp, or local folder
+    work_option = console.input(
+        "Select an option to work with [repository/ftp/local]: "
+    ).strip().lower()
+
+    if work_option == 'repository':
+        # Existing functionality to work with repository
+        pass  # This will be replaced with the existing code
+    elif work_option == 'ftp':
+        # Placeholder for future FTP functionality
+        print("FTP option is not implemented yet.")
+    elif work_option == 'local':
+        # Placeholder for future local folder functionality
+        print("Local folder option selected.")
+    else:
+        print("Invalid option selected.")
 
 def prompt_user_for_github_repo():
     global user_repo
