@@ -53,8 +53,12 @@ def main():
         # Placeholder for future FTP functionality
         print("FTP option is not implemented yet.")
     elif work_option == 'local':
-        # Placeholder for future local folder functionality
-        print("Local folder option selected.")
+        # Implementation of local folder functionality with pyperclip support
+        path = console.input("Enter the path of the local file to paste content into: ")
+        clipboard_content = pyperclip.paste()
+        with open(path, 'w') as file:
+            file.write(clipboard_content)
+        print("Content pasted into", path)
     else:
         print("Invalid option selected.")
 
