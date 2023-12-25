@@ -194,3 +194,37 @@ def cherrypick(sandbox: Sandbox, args: Dict[str, Any]) -> str:
 
     return 'success'
 
+
+
+# Function to send an email
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+
+def send_email(args: Dict[str, Any]) -> str:
+    smtp_server = args['smtp_server']
+    smtp_port = args['smtp_port']
+    username = args['username']
+    password = args['password']
+    sender = args['sender']
+    recipients = args['recipients']
+    subject = args['subject']
+    body = args['body']
+    
+    message = MIMEMultipart()
+    message['From'] = sender
+    message['To'] = ', '.join(recipients)
+    message['Subject'] = subject
+    
+    message.attach(MIMEText(body, 'plain'))
+    
+    try:
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+        server.login(username, password)
+        server.sendmail(sender, recipients, message.as_string())
+        server.quit()
+        return 'success'
+    except Exception as e:
+        return f'Error: {e}'
