@@ -240,3 +240,40 @@ def append_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         return "success"
     except Exception as e:
         return f"Error: {e}"
+
+
+def backup_repository(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    repo_directory = "/home/user/repo"
+    backup_directory = args['backup_directory']
+    print_sandbox_action('Backing up the repository', repo_directory)
+
+    git_backup_proc = sandbox.process.start_and_wait(f"git -C {repo_directory} bundle create {backup_directory}/repo-backup.bundle --all")
+    if git_backup_proc.exit_code != 0:
+        error = f"Error backing up repository: {git_backup_proc.stdout}\n\t{git_backup_proc.stderr}"
+        console.print("\t[bold red]Error:[/bold red]", error)
+        return error
+
+    return 'success'
+
+
+def search_and_replace(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    path = args['path']
+    search_string = args['search_string']
+    replace_string = args['replace_string']
+    print_sandbox_action('Searching and replacing in files', path)
+
+    # Placeholder for actual search and replace logic
+
+    return 'success'
+
+
+def tell_developer_joke() -> str:
+    jokes = [
+        "How many programmers does it take to change a light bulb? None, that's a hardware problem.",
+        "Why do programmers prefer dark mode? Because light attracts bugs.",
+        "Why was the JavaScript developer sad? Because he didn't Node how to Express himself.",
+    ]
+    return random.choice(jokes)
+
+
+# Add new actions to the list here
