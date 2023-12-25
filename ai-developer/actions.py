@@ -11,4 +11,4 @@ def save_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         updated_content = sandbox.filesystem.read(path)
         return updated_content
     except Exception as e:
-        return f'Error: {e}'
+        return f"Error: {e}"
