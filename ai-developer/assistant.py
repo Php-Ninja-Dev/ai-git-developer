@@ -268,3 +268,6 @@ def create_assistant():
 
 if __name__ == "__main__":
     create_assistant()
+
+def append_content_to_file(*args, **kwargs):
+    return actions.append_content_to_file(*args, **kwargs)

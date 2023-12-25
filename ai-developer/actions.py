@@ -228,3 +228,15 @@ def send_email(args: Dict[str, Any]) -> str:
         return 'success'
     except Exception as e:
         return f'Error: {e}'
+
+def append_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    path = args["path"]
+    content = args["content"]
+    print_sandbox_action("Appending content to", path)
+
+    try:
+        with open(path, 'a') as file:
+            file.write(content)
+        return "success"
+    except Exception as e:
+        return f"Error: {e}"
