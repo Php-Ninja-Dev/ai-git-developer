@@ -2,6 +2,8 @@
 
 ![Gif from developer](assets/run_example.gif)
 
+Based on https://github.com/e2b-dev/e2b-cookbook
+
 A custom AI assistant that can clone any GitHub repository to its remote cloud environment, work on the repo there, and then make pull request to GitHub.
 
 The AI developer uses E2B sandboxes for the remote execution of tasks.
