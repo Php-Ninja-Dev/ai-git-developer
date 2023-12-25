@@ -184,7 +184,7 @@ def main():
                         .content
                     )
                     text_messages = [
-                        message for message in messages if message.type == "text"
+                        message for message in(messages if message.type == "text" )
                     ]
                     console.print("Thread finished:", text_messages[0].text.value)
                     break
