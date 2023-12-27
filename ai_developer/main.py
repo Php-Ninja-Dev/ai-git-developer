@@ -163,14 +163,7 @@ def main():
         on_stdout=handle_sandbox_stdout,
     )
     sandbox.add_action(create_directory).add_action(download_ftp_folder).add_action(read_file).add_action(save_content_to_file).add_action(list_files).add_action(commit).add_action(make_pull_request).add_action(modify_file_line).add_action(send_email).add_action(git_pull).add_action(delete_file).add_action(copy_file).add_action(rename_file).add_action(find_replace_in_file).add_action(check_git_status)
-                run = client.beta.threads.runs.retrieve(
-                    thread_id=thread.id, run_id=run.id
-    main()
 
-                if outputs and 'error' in outputs[0]:
-                    print('\n[bold #FF0000]Error occurred in the loop. Getting back to the first function.[/bold #FF0000]\n')
-                    break
-                time.sleep(0.5)
 
     print("\n🤖[#E57B00][bold] AI developer[/#E57B00][/bold]")
     if USER_GITHUB_TOKEN is None:
