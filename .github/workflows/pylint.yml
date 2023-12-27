@@ -23,7 +23,23 @@ jobs:
         pip install poetry
     - name: Install dependencies with Poetry
       run: |
-        poetry install        
+        poetry install
+    - name: Format code with autopep8
+      run: |
+        autopep8 --in-place --aggressive --aggressive --recursive .
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
+    - name: Check for changes
+      id: changes
+      run: |
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "::set-output name=changes::true"
+        fi
+    - name: Commit formatting changes
+      if: steps.changes.outputs.changes == 'true'
+      run: |
+        git config --global user.name 'Your Name'
+        git config --global user.email 'your-email@example.com'
+        git commit -am "Apply autopep8 formatting"
+        git push              
