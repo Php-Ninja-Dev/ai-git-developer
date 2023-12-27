@@ -1,5 +1,6 @@
 import openai
 import html
+import json
 import time
 import os
 from rich import print
@@ -90,7 +91,7 @@ def prompt_user_for_task(repo_url):
     
     user_task = (
         f"Please work with the codebase repo called {repo_url} "
-        f"that is cloned in the /home/user/repo directory. React on the following user's comment: {user_task_specification}, If you need to modify a file, use modify_file_line action or return full file content because save_content_to_file action will overwrite file content."
+        f"that is cloned in the /home/user/repo directory. React on the following user's comment: {user_task_specification}"
     )
     print("", end="\n")
     return user_task
