@@ -145,7 +145,8 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         return error
 
     # Push the new branch to the origin server
-    git_push_proc = sandbox.process.start_and_wait(
+        # If there's an error, format and return it
+
         f"git -C {REPO_DIRECTORY} push -u origin {new_branch_name}"
     )
     if git_push_proc.exit_code != 0:
