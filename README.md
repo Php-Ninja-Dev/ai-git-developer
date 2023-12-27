@@ -19,7 +19,7 @@ The AI developer uses E2B sandboxes for the remote execution of tasks. We acknow
 
 ## Requirements
 - Python v3
-- Poetry
+An AI assistant for developers that can analyze and fix pylint errors in a codebase.
 - Github CLI Client
 - OpenAi API key
 - Github Api key
@@ -44,16 +44,16 @@ brew install gh
 5. Rename `.env.example` to `.env` and set up the `OPENAI_API_KEY` key and the `E2B_API_KEY` key. You can get `E2B_API_KEY` at  https://e2b.dev/docs/getting-started/api-key
 6. Run `poetry run create-ai-assistant` to create a new AI assistant, which is mandatory for the setup.
 7. Get the assistant ID from the console output and set it in the `.env` file as `AI_ASSISTANT_ID`
-8. Start the app:
-```sh
+- Analyze and fix pylint errors in a codebase.
+- Clone any GitHub repository and make a pull request once done.
 poetry run start
 ```
 # Author
 
 - 
-# Contribute
-
-# Get Help
+- Controllable from your terminal
+- Powered by GPT-4-Turbo
+- Runs in secure cloud sandbox by E2B
 
 # Author
 
