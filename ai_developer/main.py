@@ -9,6 +9,7 @@ from ai_developer.actions import (
     read_file,
     save_content_to_file,
     list_files,
+    modify_file_line,
     commit,
     make_pull_request,
     REPO_DIRECTORY,
@@ -151,7 +152,7 @@ def main():
     )
     sandbox.add_action(create_directory).add_action(read_file).add_action(
         save_content_to_file
-    ).add_action(list_files).add_action(commit).add_action(make_pull_request)
+    ).add_action(list_files).add_action(commit).add_action(make_pull_request).add_action(modify_file_line).add_action(send_email)
 
     print("\n🤖[#E57B00][bold] AI developer[/#E57B00][/bold]")
     if USER_GITHUB_TOKEN is None:
@@ -173,7 +174,7 @@ def main():
             messages=[
                 {
                     "role": "user",
-                    "content": f"Carefully plan this task and start working on it: {user_task} in the {repo_url} repo, remember action save_content_to_file overwrites the file so you should return updated and complete file content of each file before overwriting. ",
+                    "content": f"Carefully plan this task and start working on it: {user_task} in the {repo_url} repo. If you need to modify a file use modify_file_line action, in doubt add your code at the end of file.",
                 },
             ],
         )

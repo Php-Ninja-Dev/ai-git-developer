@@ -153,4 +153,11 @@ def modify_file_line(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         sandbox.filesystem.write(path, updated_content)
         return "success"
     except Exception as e:
+        console.print(f"Error: ",e)
         return f"Error: {e}"
+
+def send_email(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    recipients = args["recipients"]
+    subject = args["subject"]
+    body = args["body"]
+    print_sandbox_action("Sending email to", ', '.join(recipients))

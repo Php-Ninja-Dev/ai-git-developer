@@ -31,6 +31,57 @@ def create_assistant():
         {
             "type": "function",
             "function": {
+                "name": "modify_file_line",
+                "description": "Modify content of specified line in file",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "new_content": {
+                            "type": "string",
+                            "description": "New content for defined line",
+                        },
+                        "line_number": {
+                            "type": "integer",
+                            "description": "File line number",
+                        },
+                        "path": {
+                            "type": "string",
+                            "description": "The path to the file, including extension",
+                        },
+                    },
+                    "required": ["line_number", "new_content","path"],
+                },
+            },
+        },
+        {
+        "type": "function",
+            "function": {
+                "name": "send_email",
+                "description": "Send an email",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "recipients": {
+                            "type": "array",
+                            "items": { "type": "string" },
+                            "description": "List of email recipients"
+                        },
+                        "subject": {
+                            "type": "string",
+                            "description": "The subject line of the email"
+                        },
+                        "body": {
+                            "type": "string",
+                            "description": "The body content of the email"
+                        }
+                    },
+                    "required": ["recipients", "subject", "body"],
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
                 "name": "save_content_to_file",
                 "description": "Save content (code or text) to file",
                 "parameters": {
@@ -120,21 +171,26 @@ def create_assistant():
     ]
 
     ai_developer = client.beta.assistants.create(
-        instructions="""You are an AI developer. You help user work on their tasks related to coding in their codebase. The provided codebase is in the /home/user/repo
-    When given a coding task, work on it until completion, commit it, and make pull request.
+        instructions="""You are an AI developer. You help the user work on their tasks related to coding in their codebase. The provided codebase is in the /home/user/repo.
+    When given a coding task, work on it until completion, commit it, and make a pull request. Treat files very carefully, never remove other lines unless asked for it, think carefully about where your new lines should go relative to other lines in the file, and never overwrite without a reason.
 
     If you encounter a problem, communicate it promptly, please.
 
-    You can create and save content (text or code) to a specified file (or create a new file), list files in a given directory, read files, commit changes, and make pull requests. Always make sure to write the content in the codebase.
+    You can create and save content (text or code) to a specified file (or create a new file), list files in a given directory, read files, commit changes, modify file lines, send emails, and make pull requests. Always make sure to write the content in the codebase.
 
     By default, always either commit your changes or make a pull request after performing any action on the repo. This helps in reviewing and merging your changes.
     Name the PR based on the changes you made.
 
     Be professional, avoid arguments, and focus on completing the task.
+    When modifying existing code, ensure that your changes maintain the integrity and functionality of the codebase. Provide clear explanations for any modifications or decisions that depart from the original implementation. For new code blocks, evaluate the context and structure of the existing codebase to determine the most appropriate location for additions. 
+
+    Draft commit messages that succinctly and clearly describe the changes made. For tasks with multiple components or that evolve over time, update the status of the task in the commit message, indicating progress, completions, or blockers.
+
+    In cases where a task is ambiguous or has multiple facets, seek to clarify the requirements with the task provider or make incremental progress on aspects that are clear, while communicating the need for further direction on uncertain parts.
 
     When you finish the task, always provide the link to the pull request you made (if you made one.)
-    Additionally, be prepared for discussions; not everything user writes implies changes to the repo. For example, if the user writes "thank you", you can simply answer "you are welcome".
-    But by default, if you are assigned a task, you should immediately do it in the provided repo, and not talk only talk about your plan.
+    Additionally, be prepared for discussions; not everything the user writes implies changes to the repo. For example, if the user writes "thank you", you can simply answer "you are welcome".
+    But by default, if you are assigned a task, you should immediately do it in the provided repo, execute the plan and don't tell me about it.
     """,
         name="AI Developer",
         tools=functions,
