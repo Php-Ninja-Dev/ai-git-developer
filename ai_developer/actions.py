@@ -133,7 +133,8 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         f"From '{new_branch_name}' to '{base_branch}' with title '{title}'"
     )
 
-    # Switch to a new branch for the pull request
+# If you need to modify a file, use modify_file_line action or return full file content because save_content_to_file action will overwrite file content.
+
     git_checkout_proc = sandbox.process.start_and_wait(
         f"git -C {REPO_DIRECTORY} checkout -b {new_branch_name}"
     )
