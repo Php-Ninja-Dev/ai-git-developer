@@ -155,7 +155,24 @@ def modify_file_line(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         elif action == "insert_below":
             file_lines.insert(line_number, new_content)
         elif action == "replace":
-            file_lines[line_number - 1] = new_content
+
+def start_simple_http_server(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    # Starts a simple HTTP server for local development
+    # Args:
+    #     sandbox: The sandbox instance
+    #     args: A dictionary containing:
+    #           'port': The port number to start the server on
+    port = args.get('port', 8000)
+    directory = args.get('directory', os.getcwd())
+    print_sandbox_action('Starting Simple HTTP Server on port', str(port))
+
+    try:
+        os.chdir(directory)
+        http_server_proc = sandbox.process.start(f'python -m http.server {port}')
+        return f'Simple HTTP Server started on port {port}'
+    except Exception as e:
+        return f"Error: {e}"
+
         else:
             return f"Error: Unsupported action '{action}'"
 
