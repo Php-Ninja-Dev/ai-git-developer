@@ -99,7 +99,32 @@ def commit(sandbox: Sandbox, args: Dict[str, Any]) -> str:
 def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     base_branch = "main"
     random_letters = "".join(random.choice(string.ascii_letters) for _ in range(5))
-    new_branch_name = f"ai-developer-{random_letters}"
+def modify_file_line(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    path = args["path"]
+    line_number = args["line_number"]
+    new_content = args.get("new_content", None)
+    action = args.get("action", "replace")
+    print_sandbox_action("Modifying file line", f'path: {path}, line: {line_number}, action: {action}')
+
+    try:
+        file_content = sandbox.filesystem.read(path)
+        file_lines = file_content.split('\n')
+        if action == "insert_above":
+            file_lines.insert(line_number - 1, new_content)
+        elif action == "insert_below":
+            file_lines.insert(line_number, new_content)
+        elif action == "replace":
+            file_lines[line_number - 1] = new_content
+        else:
+            return f"Error: Unsupported action '{action}'"
+
+        updated_content = '\n'.join(file_lines)
+        sandbox.filesystem.write(path, updated_content)
+        return "success"
+    except Exception as e:
+        console.print(f"Error: ",e)
+        return f"Error: {e}"
+
 
     title = args["title"]
     body = ""
