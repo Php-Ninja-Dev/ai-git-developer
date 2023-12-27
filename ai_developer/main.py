@@ -169,7 +169,7 @@ def main():
             messages=[
                 {
                     "role": "user",
-                    "content": f"Carefully plan this task and start working on it: {user_task} in the {repo_url} repo, remember action save_content_to_file overwrites the file so you should return updated and complete file content. If my input makes no sense, check your previous message I'm replying to that.",
+                    "content": f"Carefully plan this task and start working on it: {user_task} in the {repo_url} repo, remember action save_content_to_file overwrites the file so you should return updated and complete file content of each file before overwriting. ",
                 },
             ],
         )
