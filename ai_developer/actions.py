@@ -10,7 +10,7 @@ REPO_DIRECTORY = "/home/user/repo"
 
 custom_theme = Theme(
     {
-        "sandbox_action": "bold #E57B00",  # Adjust color as needed
+        "sandbox_action": "bold #E57B00",
     }
 )
 
@@ -127,7 +127,7 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
 
     gh_pull_request_proc = sandbox.process.start_and_wait(
         cmd=f'gh pr create --base "{base_branch}" --head "{new_branch_name}" --title "{title}" --body "{body}"'.replace(
-            "`", "\\`"
+            "`", "\`"
         ),
         cwd=REPO_DIRECTORY,
     )
@@ -137,3 +137,20 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         return error
 
     return "success"
+
+
+def modify_file_line(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    path = args["path"]
+    line_number = args["line_number"]
+    new_content = args["new_content"]
+    print_sandbox_action("Modifying file line", f'path: {path}, line: {line_number}')
+
+    try:
+        file_content = sandbox.filesystem.read(path)
+        file_lines = file_content.split('\n')
+        file_lines[line_number - 1] = new_content
+        updated_content = '\n'.join(file_lines)
+        sandbox.filesystem.write(path, updated_content)
+        return "success"
+    except Exception as e:
+        return f"Error: {e}"
