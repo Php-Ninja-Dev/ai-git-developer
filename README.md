@@ -55,6 +55,9 @@ poetry run start
 
 # Get Help
 
+# Author
+
+- Beto Ayesa (original code from E2B, enhancements by Tereza)
 
 # License
 
