@@ -1,4 +1,6 @@
 # AI Developer
+DISCLAIMER: Right now it's not working, but you can try it.
+Actions are working, communication with the bot is working, but it's overwriting files, prompts are not working well.
 
 ![Gif from developer](assets/run_example.gif)
 
