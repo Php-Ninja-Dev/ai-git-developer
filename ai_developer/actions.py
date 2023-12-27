@@ -127,7 +127,8 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     title = args["title"]
     
     # Inform the user which pull request is being made
-    print_sandbox_action(
+        print_sandbox_action("Committing changes with message", commit_message)
+
         "Creating a pull request", 
         f"From '{new_branch_name}' to '{base_branch}' with title '{title}'"
     )
