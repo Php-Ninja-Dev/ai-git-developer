@@ -62,6 +62,25 @@ def list_files(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         return response
     except Exception as e:
         return f"Error: {e}"
+def save_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    path = args["path"]
+    content = args["content"]
+    append = args.get("append", True)
+    print_sandbox_action("Saving content", f'to {path}, append: {append}')
+    mode = 'a' if append else 'w'
+
+    try:
+        dir = os.path.dirname(path)
+        if not os.path.exists(dir):
+            sandbox.filesystem.make_dir(dir)
+        if not append and os.path.exists(path):
+            confirmation = args.get('confirmation', False)
+            if not confirmation:
+                return "Error: File exists, and overwrite confirmation not provided."
+        sandbox.filesystem.write(path, content, mode=mode)
+        return "success"
+    except Exception as e:
+        return f"Error: {e}"
 
 
 def read_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
