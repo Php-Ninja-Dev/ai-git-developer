@@ -53,7 +53,34 @@ def create_assistant():
             "type": "function",
             "function": {
                 "name": "list_files",
-                "description": "List files in a directory",
+        {
+            "type": "function",
+            "function": {
+                "name": "send_email",
+                "description": "Send an email",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "recipients": {
+                            "type": "array",
+                            "items": { "type": "string" },
+                            "description": "List of email recipients"
+                        },
+                        "subject": {
+                            "type": "string",
+                            "description": "The subject line of the email"
+                        },
+                        "body": {
+                            "type": "string",
+                            "description": "The body content of the email"
+                        }
+                    },
+                    "required": ["recipients", "subject", "body"],
+                }
+            }
+        },
+    ]
+
                 "parameters": {
                     "type": "object",
                     "properties": {
