@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "ai-developer"
+name = "ai_developer"
 version = "0.1.0"
 description = ""
 authors = []
 readme = "README.md"
-packages = [{ include = "ai-developer" }]
+packages = [{ include = "ai_developer" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -20,5 +20,5 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry.scripts]
-start = "ai_github_developer.main:main"
-create-ai-assistant = "ai-developer.assistant:create_assistant"
+start = "ai-developer.main:main"
+create-ai-assistant = "ai_developer.assistant:create_assistant"
