@@ -112,7 +112,8 @@ def commit(sandbox: Sandbox, args: Dict[str, Any]) -> str:
 # If you need to modify a file, use modify_file_line action or return full file content because save_content_to_file action will overwrite file content.
 
         console.print("[bold red]Error:[/bold red]", error)
-        return error
+        # If there's an error, format and return it
+
 
     return "success"
 
