@@ -2,6 +2,209 @@ import os
 import random
 import string
 from typing import Any, Dict
+import ftplib
+from e2b import Sandbox
+from rich.console import Console
+from rich.theme import Theme
+
+# Define the repository's directory
+REPO_DIRECTORY = "/home/user/repo"
+
+# Set up a custom theme for console outputs used in actions
+custom_theme = Theme({"sandbox_action": "bold #E57B00"})
+console = Console(theme=custom_theme)
+
+
+# This function prints actions taken by the sandbox
+# Each action is highlighted to show the type and a message
+def print_sandbox_action(action_type: str, action_message: str) -> None:
+    
+    # Use the custom theme for the action message
+    console.print(
+        f"[sandbox_action] [Sandbox Action][/sandbox_action] {action_type}: {action_message}"
+    )
+
+
+# Define actions available for the assistant within the sandbox environment
+def create_directory(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    directory = args["path"]
+    print_sandbox_action("Creating directory", directory)
+    
+    # Attempt to create the directory and return a success or error message
+    try:
+        sandbox.filesystem.make_dir(directory)
+        return "success"
+    except Exception as e:
+        # Return a formatted error message
+        return f"Error: {str(e)}"
+
+
+# This action saves content to a specified file within the sandbox
+def save_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    path = args["path"]
+    content = args["content"]
+    print_sandbox_action("Saving content to", path)
+    
+    # Attempt to save content to the file and handle potential errors
+    try:
+        # Extract the directory from the path
+        dir_path = os.path.dirname(path)
+        # Ensure the directory exists
+        sandbox.filesystem.make_dir(dir_path)
+        # Write the content to the file
+        sandbox.filesystem.write(path, content)
+        return "success"
+    except Exception as e:
+        # Return a detailed error message
+        return f"Error: {str(e)}"
+
+
+# This action lists all files within a specified directory in the sandbox
+def list_files(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    path = args["path"]
+    print_sandbox_action("Listing files in", path)
+    
+    # Attempt to list the files and return the results or an error message
+    try:
+        files = sandbox.filesystem.list(path)
+        response = "\n".join(
+            [f"dir: {file.name}" if file.is_dir else file.name for file in files]
+        )
+        return response
+    except Exception as e:
+        # Handle any exceptions and return an error message
+        return f"Error: {str(e)}"
+
+
+# This action reads the contents of a file from the sandbox's filesystem
+def read_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    path = args["path"]
+    print_sandbox_action("Reading file", path)
+
+    # Attempt to read the file and return its content or an error
+    try:
+        return sandbox.filesystem.read(path)
+    except Exception as e:
+        # Provide an error message with details
+        return f"Error: {str(e)}"
+
+
+# Commit changes to the git repository within the sandbox
+def commit(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    # Commit message is obtained from the arguments
+    commit_message = args["message"]
+    print_sandbox_action("Committing changes with message", commit_message)
+
+    # Add all changes to git staging
+    git_add_proc = sandbox.process.start_and_wait(f"git -C {REPO_DIRECTORY} add .")
+    if git_add_proc.exit_code != 0:
+        # If there's an error, format and return it
+        error = f"Error adding files to staging: {git_add_proc.stdout}\n\t{git_add_proc.stderr}"
+        console.print("[bold red]Error:[/bold red]", error)
+        return error
+
+    # Execute the git commit command with the provided message
+    git_commit_proc = sandbox.process.start_and_wait(
+        f"git -C {REPO_DIRECTORY} commit -m '{commit_message}'"
+    )
+    if git_commit_proc.exit_code != 0:
+        # Report any errors during commit
+        error = f"Error committing changes: {git_commit_proc.stdout}\n\t{git_commit_proc.stderr}"
+        console.print("[bold red]Error:[/bold red]", error)
+        return error
+
+    return "success"
+
+
+# Make a pull request from a new branch to the main branch in the git repository
+def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    base_branch = "main"
+    random_letters = ''.join(random.choices(string.ascii_letters, k=5))
+    new_branch_name = f"ai-developer-{random_letters}"
+
+    title = args["title"]
+    
+    # Inform the user which pull request is being made
+    print_sandbox_action(
+        "Creating a pull request", 
+        f"From '{new_branch_name}' to '{base_branch}' with title '{title}'"
+    )
+
+    # Switch to a new branch for the pull request
+    git_checkout_proc = sandbox.process.start_and_wait(
+        f"git -C {REPO_DIRECTORY} checkout -b {new_branch_name}"
+    )
+    if git_checkout_proc.exit_code != 0:
+        # Handle any errors that occur when creating a new branch
+        error = f"Error creating new branch '{new_branch_name}': {git_checkout_proc.stdout}\n\t{git_checkout_proc.stderr}"
+        console.print("[bold red]Error:[/bold red]", error)
+        return error
+
+    # Push the new branch to the origin server
+    git_push_proc = sandbox.process.start_and_wait(
+        f"git -C {REPO_DIRECTORY} push -u origin {new_branch_name}"
+    )
+    if git_push_proc.exit_code != 0:
+        # Report any errors during pushing the branch
+        error = f"Error pushing branch '{new_branch_name}': {git_push_proc.stdout}\n\t{git_push_proc.stderr}"
+        console.print("[bold red]Error:[/bold red]", error)
+        return error
+
+    # Create the actual pull request on GitHub
+    gh_pull_request_proc = sandbox.process.start_and_wait(
+        f"gh pr create --base '{base_branch}' --head '{new_branch_name}' --title '{title}'"
+    )
+    if gh_pull_request_proc.exit_code != 0:
+        # If creating the pull request failed, provide details on the error
+        error = f"Error creating pull request: {gh_pull_request_proc.stdout}\n\t{gh_pull_request_proc.stderr}"
+        console.print("[bold red]Error:[/bold red]", error)
+        return error
+
+    return "success"
+
+
+# Modify a specific line of a file or insert a new line at the specified position
+def modify_file_line(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    path = args["path"]
+    line_number = args["line_number"]
+    new_content = args.get("new_content", "")
+    action = args.get("action", "replace")
+
+    # Inform the user about the line modification action
+    print_sandbox_action("Modifying file line", f'Path: {path}, Line: {line_number}, Action: {action}')
+    
+    # Process the file modification based on the action specified
+    try:
+        # Read the current content of the file
+        file_content = sandbox.filesystem.read(path)
+        file_lines = file_content.split('\n')
+        
+        # Perform the appropriate action
+        if action == "insert_above":
+            file_lines.insert(line_number - 1, new_content)
+        elif action == "insert_below":
+            file_lines.insert(line_number, new_content)
+        elif action == "replace":
+            file_lines[line_number - 1] = new_content
+        else:
+            # Report an error if an unsupported action is requested
+            return f"Error: Unsupported action '{action}'"
+        
+        # Join the lines back together and write the updated content to the file
+        updated_content = '\n'.join(file_lines)
+        sandbox.filesystem.write(path, updated_content)
+        return "success"
+    except Exception as e:
+        # Provide a detailed error message if an exception is caught
+        console.print("Error: ", e)
+        return f"Error: {e}"
+
+
+# Additional actions, such as sending emails, deleting files, etc., are defined below...
+
+import random
+import string
+from typing import Any, Dict
 from e2b import Sandbox
 from rich.console import Console
 from rich.theme import Theme
