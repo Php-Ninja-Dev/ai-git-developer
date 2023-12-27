@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from e2b import Sandbox
 import openai
+import html
 import time
 from ai_developer.actions import (
     create_directory,
@@ -61,6 +62,7 @@ def prompt_user_for_github_repo():
     user_repo = MyPrompt.ask(
         "\nWhat GitHub repo do you want to work in? Specify it like this: [bold #E0E0E0]your_username/your_repo_name[/bold #E0E0E0].\n> "
     )
+    user_repo = html.escape(user_repo)  # Sanitize input to handle special characters
     print("\n🔄[#666666] Cloning the repo...[/#666666]", end="\n")
     print("", end="\n")
 
@@ -73,6 +75,7 @@ def prompt_user_for_task(repo_url):
     user_task_specification = MyPrompt.ask(
         "\n\n🤖[#E57B00][bold] The AI developer is working in the cloned repo[/bold][/#E57B00]\n\nWhat do you want to do?\n> "
     )
+    user_task_specification = html.escape(user_task_specification)  # Sanitize input
     user_task = (
         f"Please work with the codebase repo called {repo_url} "
         f"that is cloned in the /home/user/repo directory. React on the following user's comment: {user_task_specification}"
@@ -86,6 +89,7 @@ def prompt_user_for_auth():
         "\nProvide [bold]GitHub token[/bold] with following permissions:\n\n\u2022 read:org\n\u2022 read:project\n\u2022 repo\n\nFind or create your token at [bold #0096FF]https://github.com/settings/tokens[/bold #0096FF]\n\nToken:",
         password=True,
     )
+    user_auth = html.escape(user_auth)  # Sanitize input
     print("", end="\n")
     return user_auth
 
