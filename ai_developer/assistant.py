@@ -32,7 +32,7 @@ def create_assistant():
             "type": "function",
             "function": {
                 "name": "modify_file_line",
-                "description": "Modify content of specified line in file",
+                "description": "Modify content of specified line in file or new line in specified position",
                 "parameters": {
                     "type": "object",
                     "properties": {

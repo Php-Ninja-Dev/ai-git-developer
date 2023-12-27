@@ -1,9 +1,13 @@
-import os
-from dotenv import load_dotenv
-from e2b import Sandbox
 import openai
 import html
 import time
+import os
+from rich import print
+from rich.console import Console
+from rich.theme import Theme
+from rich.prompt import Prompt
+from dotenv import load_dotenv
+from e2b import Sandbox
 from ai_developer.actions import (
     create_directory,
     read_file,
@@ -23,10 +27,6 @@ from ai_developer.actions import (
     REPO_DIRECTORY,
 )
 
-from rich import print
-from rich.console import Console
-from rich.theme import Theme
-from rich.prompt import Prompt
 
 class MyPrompt(Prompt):
     prompt_suffix = ""
@@ -84,10 +84,13 @@ def prompt_user_for_task(repo_url):
     user_task_specification = MyPrompt.ask(
         "\n\n🤖[#E57B00][bold] The AI developer is working in the cloned repo[/bold][/#E57B00]\n\nWhat do you want to do?\n> "
     )
-    user_task_specification = html.escape(user_task_specification)  # Sanitize input
+    # Assuming user_task_specification is a string that can contain special characters
+    # Convert it to a JSON string for safe handling
+    user_task_specification_json = json.dumps(user_task_specification)
+    
     user_task = (
         f"Please work with the codebase repo called {repo_url} "
-        f"that is cloned in the /home/user/repo directory. React on the following user's comment: {user_task_specification}, If you need to modify a file, use modify_file_line action or return full file content because save_content_to_file action will overwrite."
+        f"that is cloned in the /home/user/repo directory. React on the following user's comment: {user_task_specification}, If you need to modify a file, use modify_file_line action or return full file content because save_content_to_file action will overwrite file content."
     )
     print("", end="\n")
     return user_task
