@@ -311,4 +311,23 @@ def download_ftp_folder(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     except ftplib.all_errors as e:
         return f"FTP error: {e}"
     except Exception as e:
+
+
+def run_pylint(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    # Runs pylint over all Python files in the repository
+    # Args:
+    #     sandbox: The sandbox instance
+    #     args: A dictionary potentially containing 'additional_args': Additional arguments for pylint
+    additional_args = args.get('additional_args', '')
+
+    print_sandbox_action('Running pylint on all Python files in the repository', '')
+
+    try:
+        pylint_proc = sandbox.process.start_and_wait(f'pylint $(git -C {REPO_DIRECTORY} ls-files "*.py") {additional_args}')
+        if pylint_proc.exit_code != 0:
+            error = f"Pylint execution error: {pylint_proc.stdout}\n\t{pylint_proc.stderr}"
+            console.print('\t[bold red]Error:[/bold red]', error)
+            return error
+        return pylint_proc.stdout
+    except Exception as e:
         return f"Error: {e}"
