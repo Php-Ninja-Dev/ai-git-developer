@@ -154,14 +154,6 @@ def create_assistant():
         {
             "type": "function",
             "function": {
-                "name": "pull",
-                "description": "Pull changes from repo origin",
-                
-            },
-        },
-        {
-            "type": "function",
-            "function": {
                 "name": "git_pull",
                 "description": "Pull changes from repo origin",
                 "parameters": {
@@ -174,6 +166,23 @@ def create_assistant():
                     },
                 },
             },
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "download_ftp_folder",
+                "description": "Download a folder via FTP",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "message": {
+                            "type": "string",
+                            "description": "The commit message"
+                        }
+                    },
+                    "required": ["ftp_server","ftp_path","local_path","username","password"]
+                }
+            }
         },
         {
 

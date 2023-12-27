@@ -15,6 +15,7 @@ from ai_developer.actions import (
     save_content_to_file,
     list_files,
     modify_file_line,
+    download_ftp_folder,
     commit,
     send_email,
     git_pull,
@@ -86,7 +87,7 @@ def prompt_user_for_task(repo_url):
     user_task_specification = html.escape(user_task_specification)  # Sanitize input
     user_task = (
         f"Please work with the codebase repo called {repo_url} "
-        f"that is cloned in the /home/user/repo directory. React on the following user's comment: {user_task_specification}"
+        f"that is cloned in the /home/user/repo directory. React on the following user's comment: {user_task_specification}, If you need to modify a file, use modify_file_line action or return full file content because save_content_to_file action will overwrite."
     )
     print("", end="\n")
     return user_task
@@ -157,7 +158,7 @@ def main():
         on_stderr=handle_sandbox_stderr,
         on_stdout=handle_sandbox_stdout,
     )
-    sandbox.add_action(create_directory).add_action(read_file).add_action(save_content_to_file).add_action(list_files).add_action(commit).add_action(make_pull_request).add_action(modify_file_line).add_action(send_email).add_action(git_pull).add_action(delete_file).add_action(copy_file).add_action(rename_file).add_action(find_replace_in_file).add_action(check_git_status)
+    sandbox.add_action(create_directory).add_action(download_ftp_folder).add_action(read_file).add_action(save_content_to_file).add_action(list_files).add_action(commit).add_action(make_pull_request).add_action(modify_file_line).add_action(send_email).add_action(git_pull).add_action(delete_file).add_action(copy_file).add_action(rename_file).add_action(find_replace_in_file).add_action(check_git_status)
 
     print("\n🤖[#E57B00][bold] AI developer[/#E57B00][/bold]")
     if USER_GITHUB_TOKEN is None:
@@ -179,7 +180,7 @@ def main():
             messages=[
                 {
                     "role": "user",
-                    "content": f"Carefully plan this task and start working on it: {user_task} in the {repo_url} repo. If you need to modify a file use modify_file_line action, in doubt add your code at the end of file.",
+                    "content": f"Carefully plan this task and start working on it: {user_task} in the {repo_url} repo.",
                 },
             ],
         )
