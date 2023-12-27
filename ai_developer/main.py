@@ -5,7 +5,7 @@ import openai
 import html
 import time
 from ai_developer.actions import (
-    create_directory,
+from ai_developer.actions import (\n    create_directory,\n    read_file,\n    save_content_to_file,\n    list_files,\n    modify_file_line,\n    commit,\n    send_email,\n    git_pull,\n    make_pull_request,\n    delete_file,\n    copy_file,\n    rename_file,\n    find_replace_in_file,\n    check_git_status,\n    REPO_DIRECTORY,\n)\n
     read_file,
     save_content_to_file,
     list_files,
@@ -78,7 +78,7 @@ def prompt_user_for_task(repo_url):
     user_task_specification = MyPrompt.ask(
         "\n\n🤖[#E57B00][bold] The AI developer is working in the cloned repo[/bold][/#E57B00]\n\nWhat do you want to do?\n> "
     )
-    user_task_specification = html.escape(user_task_specification)  # Sanitize input
+    sandbox.add_action(create_directory).add_action(read_file).add_action(\n        save_content_to_file\n    ).add_action(list_files).add_action(commit).add_action(make_pull_request).add_action(modify_file_line).add_action(send_email).add_action(git_pull).add_action(delete_file).add_action(copy_file).add_action(rename_file).add_action(find_replace_in_file).add_action(check_git_status)\n
     user_task = (
         f"Please work with the codebase repo called {repo_url} "
         f"that is cloned in the /home/user/repo directory. React on the following user's comment: {user_task_specification}"
