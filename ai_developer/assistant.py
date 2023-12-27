@@ -120,7 +120,32 @@ def create_assistant():
                     "properties": {
                         "message": {
                             "type": "string",
-                            "description": "The commit message",
+        {
+            "type": "function",
+            "function": {
+                "name": "send_email",
+                "description": "Send an email",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "recipients": {
+                            "type": "array",
+                            "items": { "type": "string" },
+                            "description": "List of email recipients"
+                        },
+                        "subject": {
+                            "type": "string",
+                            "description": "The subject line of the email"
+                        },
+                        "body": {
+                            "type": "string",
+                            "description": "The body content of the email"
+                        }
+                    },
+                    "required": ["recipients", "subject", "body"],
+                }
+            }
+        },
                         },
                     },
                     "required": ["message"],
