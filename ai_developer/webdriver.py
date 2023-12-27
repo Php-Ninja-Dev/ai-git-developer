@@ -1,12 +1,18 @@
-
+'''Module for handling web driver interactions in the AI Developer codebase'''
 import subprocess
-from selenium import webdriver
+import selenium
 from selenium.webdriver.chrome.options import Options
 
+from selenium.webdriver.chrome.options import Options
+
+'''Class for interacting with the web driver'''
 
 class WebdriverAction:
     def __init__(self, executable_path):
-        self.executable_path = executable_path
+
+    def __init__(self):
+        pass
+
         self.driver = None
 
     def start_webdriver(self):

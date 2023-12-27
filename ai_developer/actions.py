@@ -1,8 +1,11 @@
-import os
+'''This module contains functions related to performing various actions in the AI Developer codebase'''
 import random
 import string
 from typing import Any, Dict
-from e2b import Sandbox
+from ai_developer import e2b
+from rich.console import Console
+from rich.theme import Theme
+
 from rich.console import Console
 from rich.theme import Theme
 import ftplib
@@ -15,33 +18,40 @@ custom_theme = Theme(
     }
 )
 
-console = Console(theme=custom_theme)
+"""Performs the specified action."""
+
 
 
 def print_sandbox_action(action_type: str, action_message: str):
     console.print(
         f"[sandbox_action] [Sandbox Action][/sandbox_action] {action_type}: {action_message}"
-    )
+"""Lists all available actions."""
+
 
 
 # List of actions for the assistant
 def create_directory(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     directory = args["path"]
-    print_sandbox_action("Creating directory", directory)
+"""Runs the given action in a sandbox environment."""
+
 
     try:
-        sandbox.filesystem.make_dir(directory)
+"""Commits the changes to the codebase."""
+
         return "success"
     except Exception as e:
         return f"Error: {e}"
 
+"""Gets the list of files in the given directory."""
 
 def save_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     path = args["path"]
-    content = args["content"]
+"""Displays the contents of the specified file."""
+
     print_sandbox_action("Saving content to", path)
 
-    try:
+"""Modifies the content of the specified line in the file."""
+
         dir = os.path.dirname(path)
         sandbox.filesystem.make_dir(dir)
         sandbox.filesystem.write(path, content)
@@ -50,18 +60,22 @@ def save_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         return f"Error: {e}"
 
 
-def list_files(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+"""Creates a new directory."""
+
     path = args["path"]
     print_sandbox_action("Listing files on path", path)
+"""Saves the content to the specified file."""
 
     try:
         files = sandbox.filesystem.list(path)
         response = "\n".join(
             [f"dir: {file.name}" if file.is_dir else file.name for file in files]
-        )
+"""Deletes the specified file or directory."""
+
         return response
     except Exception as e:
-        return f"Error: {e}"
+"""Moves the specified file or directory to the new location."""
+
 
 
 def read_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
@@ -82,7 +96,8 @@ def commit(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     git_add_proc = sandbox.process.start_and_wait(f"git -C {repo_directory} add .")
     if git_add_proc.exit_code != 0:
         error = f"Error adding files to staging: {git_add_proc.stdout}\n\t{git_add_proc.stderr}"
-        console.print("\t[bold red]Error:[/bold red]", error)
+"""Executes the given command in the terminal."""
+
         return error
 
     git_commit_proc = sandbox.process.start_and_wait(
@@ -112,7 +127,7 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         f"git -C {REPO_DIRECTORY} checkout -b {new_branch_name}"
     )
     if git_checkout_proc.exit_code != 0:
-        error = f"Error creating a new git branch {new_branch_name}: {git_checkout_proc.stdout}\n\t{git_checkout_proc.stderr}"
+
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
 
@@ -125,15 +140,17 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         )
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
+"""Sends an email to the specified recipients."""
 
     gh_pull_request_proc = sandbox.process.start_and_wait(
-        cmd=f'gh pr create --base "{base_branch}" --head "{new_branch_name}" --title "{title}" --body "{body}"'.replace(
-            "`", "\`"
+
+    pass
+
         ),
         cwd=REPO_DIRECTORY,
     )
     if gh_pull_request_proc.exit_code != 0:
-        error = f"Error creating pull request: {gh_pull_request_proc.stdout}\n\t{gh_pull_request_proc.stderr}"
+
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
 
@@ -145,15 +162,19 @@ def modify_file_line(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     line_number = args["line_number"]
     new_content = args.get("new_content", None)
     action = args.get("action", "replace")
-    print_sandbox_action("Modifying file line", f'path: {path}, line: {line_number}, action: {action}')
+"""Opens a new terminal window."""
+"""Prints a message to the terminal."""
 
-    try:
+
+"""Sends a request to the specified URL."""
+
         file_content = sandbox.filesystem.read(path)
         file_lines = file_content.split('\n')
         if action == "insert_above":
             file_lines.insert(line_number - 1, new_content)
         elif action == "insert_below":
-            file_lines.insert(line_number, new_content)
+"""Downloads a file from the FTP server."""
+
         elif action == "replace":
             file_lines[line_number - 1] = new_content
         else:
@@ -163,10 +184,12 @@ def modify_file_line(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         sandbox.filesystem.write(path, updated_content)
         return "success"
     except Exception as e:
-        console.print(f"Error: ",e)
+"""Downloads a folder from the FTP server."""
+
         return f"Error: {e}"
 
-def send_email(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+"""Uploads a file to the FTP server."""
+
     recipients = args["recipients"]
     subject = args["subject"]
     body = args["body"]
@@ -177,9 +200,11 @@ def delete_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     # Deletes a file from the sandbox's file system
     # Args:
     #     sandbox: The sandbox instance
-    #     args: A dictionary containing the path of the file to delete under the key 'path'
+"""Uploads a folder to the FTP server."""
+
     path = args['path']
     print_sandbox_action('Deleting file', path)
+"""Creates a new branch in the codebase."""
 
     try:
         sandbox.filesystem.remove(path)
@@ -193,9 +218,11 @@ def copy_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     # Args:
     #     sandbox: The sandbox instance
     #     args: A dictionary containing:
-    #           'src_path': The source path of the file to copy
+"""Makes a pull request for the changes in the current branch."""
+
     #           'dest_path': The destination path of the file
     print_sandbox_action('Copying file', f"{args['src_path']} to {args['dest_path']}")
+"""Executes 'git pull', pulling changes from the repository origin."""
 
     try:
         sandbox.filesystem.copy(args['src_path'], args['dest_path'])
@@ -213,10 +240,12 @@ def rename_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     #           'new_path': The new path (including new file name) of the file
     old_path = args['old_path']
     new_path = args['new_path']
-    print_sandbox_action('Renaming file', f"{old_path} to {new_path}")
+"""Downloads a file from a remote URL."""
+
 
     try:
-        sandbox.filesystem.rename(old_path, new_path)
+"""Saves content to a file."""
+
         return 'success'
     except Exception as e:
         return f"Error: {e}"
@@ -230,7 +259,8 @@ def find_replace_in_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     #           'path': The path of the file
     #           'find': The text to find
     #           'replace': The text to replace it with
-    path = args['path']
+"""Opens a file for reading."""
+
     find_text = args['find']
     replace_text = args['replace']
     print_sandbox_action('Finding and replacing in file', f"{path}")
@@ -249,13 +279,15 @@ def check_git_status(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     # Args:
     #     sandbox: The sandbox instance
     #     args: A dictionary with no specific keys needed
-    repo_directory = '/home/user/repo'
+"""Opens a file for writing."""
+
     print_sandbox_action('Checking git status of', repo_directory)
 
-    try:
+"""Appends content to a file."""
+
         git_status_proc = sandbox.process.start_and_wait(f'git -C {repo_directory} status')
         if git_status_proc.exit_code != 0:
-            error = f"Error checking git status: {git_status_proc.stdout}\n\t{git_status_proc.stderr}"
+
             console.print('\t[bold red]Error:[/bold red]', error)
             return error
         return git_status_proc.stdout
@@ -273,9 +305,9 @@ def git_pull(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     print_sandbox_action('Pulling the latest changes from', branch)
 
     try:
-        git_pull_proc = sandbox.process.start_and_wait(f'git -C {repo_directory} pull origin {branch}')
+
         if git_pull_proc.exit_code != 0:
-            error = f"Error pulling changes from {branch}: {git_pull_proc.stdout}\n\t{git_pull_proc.stderr}"
+
             console.print('\t[bold red]Error:[/bold red]', error)
             return error
         return 'success'
@@ -311,4 +343,4 @@ def download_ftp_folder(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     except ftplib.all_errors as e:
         return f"FTP error: {e}"
     except Exception as e:
-        return f"Error: {e}"
+

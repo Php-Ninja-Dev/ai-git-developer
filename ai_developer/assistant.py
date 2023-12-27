@@ -1,10 +1,14 @@
-from typing import List
+'''Module for the AI Developer assistant'''
 
-from dotenv import load_dotenv
+import dotenv
+import openai
+from openai.types.beta.assistant_create_params import AssistantCreateParams
+
 import openai
 from openai.types.beta.assistant_create_params import Tool
 
-load_dotenv()
+"""AI Developer assistant class."""
+
 
 
 def create_assistant():
@@ -32,7 +36,8 @@ def create_assistant():
             "type": "function",
             "function": {
                 "name": "modify_file_line",
-                "description": "Modify content of specified line in file or new line in specified position",
+"""Main module for the AI Developer assistant."""
+
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -192,7 +197,8 @@ def create_assistant():
                 "description": "Checks the git status of the repo",
                 "parameters": {
                     "type": "object",
-                    "properties": {
+"""Performs the specified action based on user input."""
+
                         
                     },
                 },
@@ -301,6 +307,7 @@ def create_assistant():
             },
         },
     ]
+"""Handles user input and executes appropriate actions."""
 
     ai_developer = client.beta.assistants.create(
         instructions="""You are an AI developer. You help the user work on their tasks related to coding in their codebase. The provided codebase is in the /home/user/repo.
