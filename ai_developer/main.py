@@ -7,6 +7,11 @@ import time
 from ai_developer.actions import (
     create_directory,
     read_file,
+    delete_file,
+    copy_file,
+    rename_file,
+    find_replace_in_file,
+    check_git_status,    
     save_content_to_file,
     list_files,
     modify_file_line,
@@ -152,9 +157,7 @@ def main():
         on_stderr=handle_sandbox_stderr,
         on_stdout=handle_sandbox_stdout,
     )
-    sandbox.add_action(create_directory).add_action(read_file).add_action(
-        save_content_to_file
-    ).add_action(list_files).add_action(commit).add_action(make_pull_request).add_action(modify_file_line).add_action(send_email).add_action(git_pull)
+    sandbox.add_action(create_directory).add_action(read_file).add_action(save_content_to_file).add_action(list_files).add_action(commit).add_action(make_pull_request).add_action(modify_file_line).add_action(send_email).add_action(git_pull).add_action(delete_file).add_action(copy_file).add_action(rename_file).add_action(find_replace_in_file).add_action(check_git_status)
 
     print("\n🤖[#E57B00][bold] AI developer[/#E57B00][/bold]")
     if USER_GITHUB_TOKEN is None:
