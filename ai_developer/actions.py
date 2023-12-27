@@ -109,7 +109,8 @@ def commit(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     )
     if git_commit_proc.exit_code != 0:
         # Report any errors during commit
-        error = f"Error committing changes: {git_commit_proc.stdout}\n\t{git_commit_proc.stderr}"
+# If you need to modify a file, use modify_file_line action or return full file content because save_content_to_file action will overwrite file content.
+
         console.print("[bold red]Error:[/bold red]", error)
         return error
 
