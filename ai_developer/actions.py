@@ -103,6 +103,26 @@ def commit(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         error = f"Error adding files to staging: {git_add_proc.stdout}\n\t{git_add_proc.stderr}"
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
+def save_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    path = args["path"]
+    content = args["content"]
+    append = args.get("append", False)
+    overwrite = args.get("overwrite", False)
+    print_sandbox_action("Saving content", f'to {path}, append: {append}')
+    mode = 'a' if append else 'w'
+
+    # Check if overwrite is True or if the file doesn't exist, then write the content.
+    if overwrite or not os.path.exists(path):
+        try:
+            dir = os.path.dirname(path)
+            if not os.path.exists(dir):
+                sandbox.filesystem.make_dir(dir)
+            sandbox.filesystem.write(path, content, mode=mode)
+            return "success"
+        except Exception as e:
+            return f"Error: {e}"
+    else:
+        return "Error: File exists and overwrite is set to False."
 
     git_commit_proc = sandbox.process.start_and_wait(
         f"git -C {repo_directory} commit -m '{commit_message}'"
