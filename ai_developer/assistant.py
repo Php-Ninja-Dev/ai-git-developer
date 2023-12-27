@@ -5,7 +5,11 @@ import openai
 from openai.types.beta.assistant_create_params import AssistantCreateParams
 
 import openai
-from openai.types.beta.assistant_create_params import Tool
+from ai_developer.utils.pylint_util import run_pylint
+
+
+from ai_developer.utils.pylint_util import run_pylint
+
 
 """AI Developer assistant class."""
 

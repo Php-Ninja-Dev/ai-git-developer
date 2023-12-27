@@ -4,7 +4,9 @@ import json
 import time
 import os
 from rich import print
-from rich.console import Console
+from ai_developer.utils.pylint_util import run_pylint
+
+
 from rich.theme import Theme
 from rich.prompt import Prompt
 from dotenv import load_dotenv
@@ -27,6 +29,8 @@ from ai_developer.actions import (
     make_pull_request,
     REPO_DIRECTORY,
 )
+from ai_developer.utils.pylint_util import run_pylint
+
 
 
 class MyPrompt(Prompt):
