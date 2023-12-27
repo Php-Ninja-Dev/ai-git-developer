@@ -46,11 +46,15 @@ brew install gh
 ```sh
 poetry run start
 ```
-#Author
+# Author
 
 - 
+# Contribute
 
-#License
+# Get Help
+
+
+# License
 
 GPL-3. Check LICENSE.md
 
