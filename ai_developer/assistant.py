@@ -57,7 +57,120 @@ def create_assistant():
         "type": "function",
             "function": {
                 "name": "send_email",
-                "description": "Send an email",
+        {
+            "type": "function",
+            "function": {
+                "name": "git_pull",
+                "description": "Pull changes from repo origin",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "branch": {
+                            "type": "string",
+                            "description": "The branch to pull from, defaulting to main"
+                        }
+                    },
+                },
+            },
+        }
+
+            "type": "function",
+            "function": {
+                "name": "check_git_status",
+                "description": "Checks the git status of the repo",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        
+                    },
+                },
+            },
+        },
+
+            "type": "function",
+            "function": {
+                "name": "find_replace_in_file",
+                "description": "Finds and replaces text within a file",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "path": {
+                            "type": "string",
+                            "description": "The path of the file"
+                        },
+                        "find": {
+                            "type": "string",
+                            "description": "The text to find"
+                        },
+                        "replace": {
+                            "type": "string",
+                            "description": "The text to replace it with"
+                        }
+                    },
+                    "required": ["path", "find", "replace"]
+                },
+            },
+        },
+
+            "type": "function",
+            "function": {
+                "name": "rename_file",
+                "description": "Renames a specified file within the system",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "old_path": {
+                            "type": "string",
+                            "description": "The current path of the file"
+                        },
+                        "new_path": {
+                            "type": "string",
+                            "description": "The new path (including new file name) of the file"
+                        }
+                    },
+                    "required": ["old_path", "new_path"]
+                },
+            },
+        },
+
+            "type": "function",
+            "function": {
+                "name": "copy_file",
+                "description": "Copies a file within the system",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "src_path": {
+                            "type": "string",
+                            "description": "The source path of the file to copy"
+                        },
+                        "dest_path": {
+                            "type": "string",
+                            "description": "The destination path of the file"
+                        },
+                    },
+                    "required": ["src_path", "dest_path"]
+                },
+            },
+        },
+
+            "type": "function",
+            "function": {
+                "name": "delete_file",
+                "description": "Deletes a specified file from the system",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "path": {
+                            "type": "string",
+                            "description": "The path of the file to delete"
+                        },
+                    },
+                    "required": ["path"]
+                },
+            },
+        },
+
                 "parameters": {
                     "type": "object",
                     "properties": {
