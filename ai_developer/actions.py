@@ -253,7 +253,7 @@ def check_git_status(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         return f"Error: {e}"
 
 
-def pull_latest_changes(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+def git_pull(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     # Pulls the latest changes from the git repository
     # Args:
     #     sandbox: The sandbox instance

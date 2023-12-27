@@ -11,6 +11,8 @@ from ai_developer.actions import (
     list_files,
     modify_file_line,
     commit,
+    send_email,
+    git_pull,
     make_pull_request,
     REPO_DIRECTORY,
 )
@@ -152,7 +154,7 @@ def main():
     )
     sandbox.add_action(create_directory).add_action(read_file).add_action(
         save_content_to_file
-    ).add_action(list_files).add_action(commit).add_action(make_pull_request).add_action(modify_file_line).add_action(send_email)
+    ).add_action(list_files).add_action(commit).add_action(make_pull_request).add_action(modify_file_line).add_action(send_email).add_action(git_pull)
 
     print("\n🤖[#E57B00][bold] AI developer[/#E57B00][/bold]")
     if USER_GITHUB_TOKEN is None:

@@ -154,6 +154,14 @@ def create_assistant():
         {
             "type": "function",
             "function": {
+                "name": "pull",
+                "description": "Pull changes from repo origin",
+                
+            },
+        },
+        {
+            "type": "function",
+            "function": {
                 "name": "make_pull_request",
                 "description": "Creates a new branch and makes a pull request",
                 "parameters": {
