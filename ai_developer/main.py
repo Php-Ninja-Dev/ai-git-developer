@@ -16,8 +16,8 @@ from ai_developer.actions import (
     list_files,
     modify_file_line,
     download_ftp_folder,
-    commit,
-    send_email,
+from ai_developer.actions import WebdriverAction
+from ai_developer.actions import (
     git_pull,
     make_pull_request,
     REPO_DIRECTORY,
