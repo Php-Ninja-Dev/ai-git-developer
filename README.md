@@ -1,5 +1,7 @@
 # AI Developer
-DISCLAIMER: Right now it's not working, but you can try it.
+DISCLAIMER: Right now it's not working as intended due to file overwriting. If you need to modify a file, use modify_file_line action or return full file content because save_content_to_file action will overwrite file content.
+
+
 Actions are working, communication with the bot is working, but it's overwriting files, prompts are not working well.
 
 ![Gif from developer](assets/run_example.gif)
