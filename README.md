@@ -15,6 +15,14 @@ The AI developer uses E2B sandboxes for the remote execution of tasks. We acknow
 - Powered by GPT-4-Turbo
 - Runs in secure cloud [sandbox](https://e2b.dev/docs) by E2B
 
+## Requirements
+- Python v3
+- Poetry
+- Github CLI Client
+- OpenAi API key
+- Github Api key
+- OpenAi Assistant Id
+- e2b api key 
 
 ## How to start
 1. Clone this repository
@@ -25,8 +33,11 @@ poetry install
 ```
 4. Install Git Command Line Interface (gh):
 ```sh
-sudo apt update
-sudo apt install gh
+sudo apt update; sudo apt install gh
+```
+or with brew:
+```sh
+brew install gh
 ```
 5. Rename `.env.example` to `.env` and set up the `OPENAI_API_KEY` key and the `E2B_API_KEY` key. You can get `E2B_API_KEY` at  https://e2b.dev/docs/getting-started/api-key
 6. Run `poetry run create-ai-assistant` to create a new AI assistant, which is mandatory for the setup.
@@ -35,3 +46,11 @@ sudo apt install gh
 ```sh
 poetry run start
 ```
+#Author
+
+- 
+
+#License
+
+GPL-3. Check LICENSE.md
+
