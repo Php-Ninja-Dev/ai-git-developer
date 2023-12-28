@@ -94,7 +94,7 @@ Feel free to log an issue on our [GitHub issues page](https://github.com/natzar/
 
 - Repository url: [natzar/ai-developer](https://github.com/natzar/ai-developer)
 - [What is Ai Developer & what it does](#stripe-pad)
-- [How it works? Ful step by step guide made by e2b](https://github.com/e2b-dev/e2b-cookbook/blob/main/guides/ai-github-developer-py/guide/README.md)
+- [How it works? Full step by step guide made by e2b](https://github.com/e2b-dev/e2b-cookbook/blob/main/guides/ai-github-developer-py/guide/README.md)
 - [How to contribute](#how-to-contribute)
 - [License](#license)
 
