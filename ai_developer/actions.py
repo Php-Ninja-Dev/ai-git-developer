@@ -20,7 +20,8 @@ console = Console(theme=custom_theme)
 
 def print_sandbox_action(action_type: str, action_message: str):
     console.print(
-        f"[sandbox_action] [Sandbox Action][/sandbox_action] {action_type}: {action_message}"
+        f"[sandbox_action] [Sandbox Action][/sandbox_action] {
+            action_type}: {action_message}"
     )
 
 
@@ -79,9 +80,11 @@ def commit(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     commit_message = args["message"]
     print_sandbox_action("Committing with the message", commit_message)
 
-    git_add_proc = sandbox.process.start_and_wait(f"git -C {repo_directory} add .")
+    git_add_proc = sandbox.process.start_and_wait(
+        f"git -C {repo_directory} add .")
     if git_add_proc.exit_code != 0:
-        error = f"Error adding files to staging: {git_add_proc.stdout}\n\t{git_add_proc.stderr}"
+        error = f"Error adding files to staging: {
+            git_add_proc.stdout}\n\t{git_add_proc.stderr}"
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
 
@@ -89,7 +92,8 @@ def commit(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         f"git -C {repo_directory} commit -m '{commit_message}'"
     )
     if git_commit_proc.exit_code != 0:
-        error = f"Error committing changes: {git_commit_proc.stdout}\n\t{git_commit_proc.stderr}"
+        error = f"Error committing changes: {
+            git_commit_proc.stdout}\n\t{git_commit_proc.stderr}"
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
 
@@ -98,7 +102,8 @@ def commit(sandbox: Sandbox, args: Dict[str, Any]) -> str:
 
 def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     base_branch = "main"
-    random_letters = "".join(random.choice(string.ascii_letters) for _ in range(5))
+    random_letters = "".join(random.choice(
+        string.ascii_letters) for _ in range(5))
     new_branch_name = f"ai-developer-{random_letters}"
 
     title = args["title"]
@@ -112,7 +117,8 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         f"git -C {REPO_DIRECTORY} checkout -b {new_branch_name}"
     )
     if git_checkout_proc.exit_code != 0:
-        error = f"Error creating a new git branch {new_branch_name}: {git_checkout_proc.stdout}\n\t{git_checkout_proc.stderr}"
+        error = f"Error creating a new git branch {new_branch_name}: {
+            git_checkout_proc.stdout}\n\t{git_checkout_proc.stderr}"
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
 
@@ -121,7 +127,8 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     )
     if git_push_proc.exit_code != 0:
         error = (
-            f"Error pushing changes: {git_push_proc.stdout}\n\t{git_push_proc.stderr}"
+            f"Error pushing changes: {
+                git_push_proc.stdout}\n\t{git_push_proc.stderr}"
         )
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
@@ -133,7 +140,8 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         cwd=REPO_DIRECTORY,
     )
     if gh_pull_request_proc.exit_code != 0:
-        error = f"Error creating pull request: {gh_pull_request_proc.stdout}\n\t{gh_pull_request_proc.stderr}"
+        error = f"Error creating pull request: {
+            gh_pull_request_proc.stdout}\n\t{gh_pull_request_proc.stderr}"
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
 
@@ -145,7 +153,8 @@ def modify_file_line(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     line_number = args["line_number"]
     new_content = args.get("new_content", None)
     action = args.get("action", "replace")
-    print_sandbox_action("Modifying file line", f'path: {path}, line: {line_number}, action: {action}')
+    print_sandbox_action("Modifying file line", f'path: {
+                         path}, line: {line_number}, action: {action}')
 
     try:
         file_content = sandbox.filesystem.read(path)
@@ -163,8 +172,9 @@ def modify_file_line(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         sandbox.filesystem.write(path, updated_content)
         return "success"
     except Exception as e:
-        console.print(f"Error: ",e)
+        console.print(f"Error: ", e)
         return f"Error: {e}"
+
 
 def send_email(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     recipients = args["recipients"]
@@ -195,7 +205,8 @@ def copy_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     #     args: A dictionary containing:
     #           'src_path': The source path of the file to copy
     #           'dest_path': The destination path of the file
-    print_sandbox_action('Copying file', f"{args['src_path']} to {args['dest_path']}")
+    print_sandbox_action('Copying file', f"{args['src_path']} to {
+                         args['dest_path']}")
 
     try:
         sandbox.filesystem.copy(args['src_path'], args['dest_path'])
@@ -253,9 +264,11 @@ def check_git_status(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     print_sandbox_action('Checking git status of', repo_directory)
 
     try:
-        git_status_proc = sandbox.process.start_and_wait(f'git -C {repo_directory} status')
+        git_status_proc = sandbox.process.start_and_wait(
+            f'git -C {repo_directory} status')
         if git_status_proc.exit_code != 0:
-            error = f"Error checking git status: {git_status_proc.stdout}\n\t{git_status_proc.stderr}"
+            error = f"Error checking git status: {
+                git_status_proc.stdout}\n\t{git_status_proc.stderr}"
             console.print('\t[bold red]Error:[/bold red]', error)
             return error
         return git_status_proc.stdout
@@ -269,13 +282,16 @@ def git_pull(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     #     sandbox: The sandbox instance
     #     args: A dictionary with no specific keys needed
     repo_directory = '/home/user/repo'
-    branch = args.get('branch', 'main')  # Defaults to the main branch if not specified
+    # Defaults to the main branch if not specified
+    branch = args.get('branch', 'main')
     print_sandbox_action('Pulling the latest changes from', branch)
 
     try:
-        git_pull_proc = sandbox.process.start_and_wait(f'git -C {repo_directory} pull origin {branch}')
+        git_pull_proc = sandbox.process.start_and_wait(
+            f'git -C {repo_directory} pull origin {branch}')
         if git_pull_proc.exit_code != 0:
-            error = f"Error pulling changes from {branch}: {git_pull_proc.stdout}\n\t{git_pull_proc.stderr}"
+            error = f"Error pulling changes from {branch}: {
+                git_pull_proc.stdout}\n\t{git_pull_proc.stderr}"
             console.print('\t[bold red]Error:[/bold red]', error)
             return error
         return 'success'
@@ -290,7 +306,8 @@ def download_ftp_folder(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     username = args.get('username')
     password = args.get('password')
 
-    print_sandbox_action('Downloading FTP folder', f"{ftp_path} to {local_path}")
+    print_sandbox_action('Downloading FTP folder', f"{
+                         ftp_path} to {local_path}")
 
     try:
         with ftplib.FTP(ftp_server) as ftp:
@@ -303,7 +320,8 @@ def download_ftp_folder(sandbox: Sandbox, args: Dict[str, Any]) -> str:
             sandbox.filesystem.make_dir(local_path)
 
             for filename in filenames:
-                local_filepath = os.path.join(local_path, os.path.basename(filename))
+                local_filepath = os.path.join(
+                    local_path, os.path.basename(filename))
                 with open(local_filepath, 'wb') as f:
                     ftp.retrbinary('RETR ' + filename, f.write)
 
@@ -312,7 +330,6 @@ def download_ftp_folder(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         return f"FTP error: {e}"
     except Exception as e:
         return f"Error: {e}"
-
 
 
 def run_pylint_and_fix_errors(sandbox: Sandbox, args: Dict[str, Any]) -> str:
@@ -324,7 +341,8 @@ def run_pylint_and_fix_errors(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     print_sandbox_action('Running pylint and fixing errors', REPO_DIRECTORY)
 
     try:
-        pylint_proc = sandbox.process.start_and_wait(f'pylint {REPO_DIRECTORY}')
+        pylint_proc = sandbox.process.start_and_wait(
+            f'pylint {REPO_DIRECTORY}')
         if pylint_proc.exit_code != 0:
             print_sandbox_action('Pylint reported issues', 'Attempting to fix')
             # Here we would normally have logic to fix the issues pylint found
@@ -334,15 +352,18 @@ def run_pylint_and_fix_errors(sandbox: Sandbox, args: Dict[str, Any]) -> str:
             # Normally, you may use autopep8, yapf, black, isort or any other tool
             # that can automatically format and fix Python code
 
-            fix_issues_proc = sandbox.process.start_and_wait(f'autopep8 --in-place --recursive {REPO_DIRECTORY}')
+            fix_issues_proc = sandbox.process.start_and_wait(
+                f'autopep8 --in-place --recursive {REPO_DIRECTORY}')
             if fix_issues_proc.exit_code != 0:
-                error = f"Error fixing issues: {fix_issues_proc.stdout}\n\t{fix_issues_proc.stderr}"
+                error = f"Error fixing issues: {
+                    fix_issues_proc.stdout}\n\t{fix_issues_proc.stderr}"
                 console.print('\t[bold red]Error:[/bold red]', error)
                 return error
 
             return 'success'
         else:
-            print_sandbox_action('Pylint did not report any issues', 'No action needed')
+            print_sandbox_action(
+                'Pylint did not report any issues', 'No action needed')
             return 'Pylint check passed successfully'
     except Exception as e:
         return f"Error: {e}"
