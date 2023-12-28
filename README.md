@@ -64,24 +64,22 @@ GITHUB_TOKEN=
 ```sh
 poetry run start
 ```
-# Authors
+## Authors
 
 - [@tereza_tizkova](https://twitter.com/tereza_tizkova)
 - [@betoayesa](https://twitter.com/betoayesa)
 
-# Roadmap
+## Roadmap
 
 - Prepare the bases for openning it to contributions.
 - Fixing pylint errors to automatize workflow
 
 - Fix AI Developer file modifications management (Most important first step)
 
-# Contribute
+## Contribute
 
 Read contributions guidelines and start creating pull requests.
 
-# Get Help
-Please create an issue here in github
 
 
 ## License
