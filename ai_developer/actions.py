@@ -41,8 +41,8 @@ def save_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     print_sandbox_action("Saving content to", path)
 
     try:
-        dir = os.path.dirname(path)
-        sandbox.filesystem.make_dir(dir)
+        _dir = os.path.dirname(path)
+        sandbox.filesystem.make_dir(_dir)
         sandbox.filesystem.write(path, content)
         return "success"
     except Exception as e:
