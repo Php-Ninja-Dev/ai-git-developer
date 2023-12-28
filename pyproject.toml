@@ -13,6 +13,7 @@ python-dotenv = "^1.0.0"
 openai = "^1.2.4"
 rich = "^13.7.0"
 autopep8 = "^2.0.4"
+pylint = "^1.0.0"
 
 
 [build-system]

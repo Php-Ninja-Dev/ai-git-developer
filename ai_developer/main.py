@@ -153,6 +153,11 @@ def handle_sandbox_stdout(message):
 def handle_sandbox_stderr(message):
     console.print(f"[theme][Sandbox][/theme] {message.line}")
 
+def display_help_menu():
+    console.print("Help Menu:")
+    console.print("- quit: Exit the program")
+    console.print("- restart: Restart the program from the beginning")
+    console.print("- <task description>: Describe a new task for the AI developer")
 
 def main():
     global USER_GITHUB_TOKEN
@@ -181,11 +186,19 @@ def main():
     while True:
         user_task = prompt_user_for_task(repo_url)
 
+	    # Inserted logic for handling user input
+        if user_task.lower() == "quit":
+	        break  # Exit the main loop, effectively ending the program
+        elif user_task.lower() == "help":
+            display_help_menu()  # Yet to be defined
+        elif user_task.lower() == "restart":
+            return main()  # Call main() again to restart the program
+
         thread = client.beta.threads.create(
             messages=[
                 {
                     "role": "user",
-                    "content": f"Carefully plan this task and start working on it: {user_task} in the {repo_url} repo.",
+                    "content": f"Carefully plan this task, translate high level description to low level actions and start working on it: {user_task} in the {repo_url} repo.",
                 },
             ],
         )
