@@ -17,8 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pylint
-        pip install autopep8
+        pip install pylint autopep8 python-dotenv openai
     - name: Install Poetry
       run: |
         pip install poetry
@@ -28,6 +27,12 @@ jobs:
     - name: Format code with autopep8
       run: |
         poetry run autopep8 --in-place --aggressive --aggressive --recursive .
+    - name: Install Black
+      run: |
+        pip install black
+    - name: Format code with Black
+      run: |
+        black .        
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
@@ -40,7 +45,7 @@ jobs:
     - name: Commit formatting changes
       if: steps.changes.outputs.changes == 'true'
       run: |
-        git config --global user.name 'Your Name'
-        git config --global user.email 'your-email@example.com'
+        git config --global user.name 'Ai Developer'
+        git config --global user.email 'ai-developer@ai-developer.com'
         git commit -am "Apply autopep8 formatting"
         git push              
