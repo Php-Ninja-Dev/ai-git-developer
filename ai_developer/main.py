@@ -30,13 +30,16 @@ custom_theme = Theme(
 )
 console = Console(theme=custom_theme)
 
+USER_GITHUB_TOKEN = None
+AI_ASSISTANT_ID = None
+repo_url = None
+user_repo = None
 
 load_dotenv()
 client = openai.Client()
 
 AI_ASSISTANT_ID = os.getenv("AI_ASSISTANT_ID")
 USER_GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
-
 assistant = client.beta.assistants.retrieve(AI_ASSISTANT_ID)
 
 
