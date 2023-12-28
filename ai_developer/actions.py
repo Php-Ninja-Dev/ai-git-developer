@@ -29,7 +29,7 @@ def create_directory(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     print_sandbox_action("Creating directory", _directory)
 
     try:
-        sandbox.filesystem.make_dir(directory)
+        sandbox.filesystem.make_dir(_directory)
         return "success"
     except Exception as e:
         return f"Error: {e}"
