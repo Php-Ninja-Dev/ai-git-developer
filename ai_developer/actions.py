@@ -176,7 +176,9 @@ def git_pull(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     print_sandbox_action("Executing git pull in", working_directory)
 
     try:
-        git_pull_proc = sandbox.process.start_and_wait(f"git -C {working_directory} pull")
+        git_pull_proc = sandbox.process.start_and_wait(
+            f"git -C {working_directory} pull"
+        )
         if git_pull_proc.exit_code != 0:
             error = f"Error pulling changes: {git_pull_proc.stdout}\n\t{git_pull_proc.stderr}"
             console.print("\t[bold red]Error:[/bold red]", error)
