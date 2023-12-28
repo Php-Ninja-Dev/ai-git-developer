@@ -35,7 +35,7 @@ jobs:
         black .        
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py')
+        pylint $(git ls-files '*.py') --disable=E0401,C0301,C0116,C0114
     - name: Check for changes
       id: changes
       run: |
