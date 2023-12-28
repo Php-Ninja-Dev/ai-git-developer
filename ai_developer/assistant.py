@@ -56,8 +56,17 @@ def create_assistant():
                             "type": "string",
                             "description": "The path to the file, including extension",
                         },
+                        "mode": {
+                            "type": "string",
+                            "enum": ["insert", "append", "overwrite", "modify_line"],
+                            "description": "The mode of file operation (default is overwrite)",
+                        },
+                        "line_number": {
+                            "type": "integer",
+                            "description": "The line number to modify, required if mode is modify_line",
+                        }
                     },
-                    "required": ["content", "path"],
+                    "required": ["mode","content", "path"],
                 },
             },
         },

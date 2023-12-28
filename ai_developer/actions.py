@@ -35,18 +35,52 @@ def create_directory(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         return f"Error: {e}"
 
 
+
 def save_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     path = args["path"]
     content = args["content"]
+    mode = args.get("mode", "overwrite")  # Default mode is 'overwrite'
+    line_number = args.get("line_number", None)  # Used for 'insert' and 'modify_line' modes
+
     print_sandbox_action("Saving content to", path)
 
     try:
         _dir = os.path.dirname(path)
         sandbox.filesystem.make_dir(_dir)
-        sandbox.filesystem.write(path, content)
-        return "success"
+
+        if mode == "overwrite":
+            sandbox.filesystem.write(path, content)
+        elif mode == "append":
+            existing_content = sandbox.filesystem.read(path)
+            new_content = existing_content + "\n" + content
+            sandbox.filesystem.write(path, new_content)
+        elif mode in ["insert", "modify_line"]:
+            new_content = modify_or_insert_content(sandbox, path, content, line_number, mode)
+            sandbox.filesystem.write(path, new_content)
+        
+        return "Success"
     except Exception as e:
         return f"Error: {e}"
+
+def modify_or_insert_content(sandbox, path, content, line_number, mode):
+    existing_content = sandbox.filesystem.read(path)
+    lines = existing_content.split("\n")
+
+    if mode == "insert":
+        if line_number is not None and 0 <= line_number < len(lines):
+            lines.insert(line_number, content)
+        else:
+            lines.append(content)
+    elif mode == "modify_line":
+        if line_number is not None and 0 <= line_number < len(lines):
+            lines[line_number] = content
+
+    return "\n".join(lines)
+
+def print_sandbox_action(action, path):
+    # Placeholder for the actual print logic
+    print(f"{action} to {path}")
+
 
 
 def list_files(sandbox: Sandbox, args: Dict[str, Any]) -> str:
