@@ -25,20 +25,18 @@ The AI developer uses E2B sandboxes for the remote execution of tasks. We acknow
 - Github CLI Client: https://github.com/cli/cli#installation 
 - OpenAi API key: https://platform.openai.com
 - Github Api key: https://github.com/settings/tokens
-- OpenAi Assistant Id: Keep reading
 - e2b api key: https://e2b.dev/docs/getting-started/api-key
 
 ## How to start
-0. Setup all requirements and gather api keys
-1. Clone this repository
+0. Clone this repository
+1. Setup all requirements and gather api keys
 2. Install all requirements
 3. Run Poetry install
 ```sh
 poetry install
-
+poetry run create-ai-assistant
 ```
-4. Run `poetry run create-ai-assistant` to create a new AI assistant.
-5. Get the assistant ID from the console output and set it in the `.env` file as `AI_ASSISTANT_ID`
+4. Get the assistant ID from the console output and set it in the `.env` file as `AI_ASSISTANT_ID`
 5. Rename `.env.example` to `.env` and set up the `OPENAI_API_KEY` key and the `E2B_API_KEY` key. 
 
 .env.example file content:
