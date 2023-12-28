@@ -41,6 +41,7 @@ assistant = client.beta.assistants.retrieve(AI_ASSISTANT_ID)
 
 
 def prompt_user_for_github_repo():
+
     global user_repo
     user_repo = MyPrompt.ask(
         "\nWhat GitHub repo do you want to work in? Specify it like this: [bold #E0E0E0]your_username/your_repo_name[/bold #E0E0E0].\n> "
@@ -132,6 +133,18 @@ def quit():
 	print("QUIT")
 
 def main():
+    """Perform [brief description of the function's action].
+
+    Args:
+        param1 (type): Description of param1.
+        param2 (type): Description of param2.
+
+    Returns:
+        type: Description of return value.
+
+    Raises:
+        ErrorType: Description of error.
+    """	
     global USER_GITHUB_TOKEN
 
     # Create the E2B sandbox

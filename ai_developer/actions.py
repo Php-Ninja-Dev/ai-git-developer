@@ -25,8 +25,8 @@ def print_sandbox_action(action_type: str, action_message: str):
 
 # List of actions for the assistant
 def create_directory(sandbox: Sandbox, args: Dict[str, Any]) -> str:
-    directory = args["path"]
-    print_sandbox_action("Creating directory", directory)
+    _directory = args["path"]
+    print_sandbox_action("Creating directory", _directory)
 
     try:
         sandbox.filesystem.make_dir(directory)

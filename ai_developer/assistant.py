@@ -1,5 +1,4 @@
 from typing import List
-
 from dotenv import load_dotenv
 import openai
 from openai.types.beta.assistant_create_params import Tool
@@ -8,6 +7,20 @@ load_dotenv()
 
 
 def create_assistant():
+
+    """Perform [brief description of the function's action].
+
+    Args:
+        param1 (type): Description of param1.
+        param2 (type): Description of param2.
+
+    Returns:
+        type: Description of return value.
+
+    Raises:
+        ErrorType: Description of error.
+    """
+
     client = openai.Client()
 
     functions: List[Tool] = [
