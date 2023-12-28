@@ -32,7 +32,6 @@ console = Console(theme=custom_theme)
 
 USER_GITHUB_TOKEN = None
 AI_ASSISTANT_ID = None
-repo_url = None
 user_repo = None
 
 load_dotenv()
