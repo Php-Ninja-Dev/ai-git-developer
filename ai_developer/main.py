@@ -1,8 +1,14 @@
+import time
 import os
 from dotenv import load_dotenv
 from e2b import Sandbox
+from rich import print
+from rich.console import Console
+from rich.theme import Theme
+from rich.prompt import Prompt
+
 import openai
-import time
+
 from ai_github_developer.actions import (
     create_directory,
     read_file,
@@ -12,11 +18,6 @@ from ai_github_developer.actions import (
     make_pull_request,
     REPO_DIRECTORY,
 )
-
-from rich import print
-from rich.console import Console
-from rich.theme import Theme
-from rich.prompt import Prompt
 
 class MyPrompt(Prompt):
     prompt_suffix = ""
@@ -127,6 +128,8 @@ def display_help_menu():
     console.print(
         "- <task description>: Describe a new task for the AI developer")
 
+def quit():
+	print("QUIT")
 
 def main():
     global USER_GITHUB_TOKEN
@@ -158,7 +161,7 @@ def main():
 
         # Inserted logic for handling user input
         if user_task.lower() == "quit":
-            break  # Exit the main loop, effectively ending the program
+            return quit()  # Exit the main loop, effectively ending the program
         elif user_task.lower() == "help":
             display_help_menu()  # Yet to be defined
         elif user_task.lower() == "restart":
