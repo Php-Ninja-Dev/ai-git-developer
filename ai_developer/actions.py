@@ -77,11 +77,6 @@ def modify_or_insert_content(sandbox, path, content, line_number, mode):
 
     return "\n".join(lines)
 
-def print_sandbox_action(action, path):
-    # Placeholder for the actual print logic
-    print(f"{action} to {path}")
-
-
 
 def list_files(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     path = args["path"]
