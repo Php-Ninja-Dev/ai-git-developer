@@ -92,7 +92,8 @@ def setup_git(sandbox):
     sandbox.process.start_and_wait("git config --global user.name 'AI Developer'")
 
     # Login user to GitHub
-    proc = sandbox.process.start_and_wait(
+
+    sandbox.add_action(git_pull)
         f"echo {USER_GITHUB_TOKEN} | gh auth login --with-token"
     )
     if proc.exit_code != 0:
