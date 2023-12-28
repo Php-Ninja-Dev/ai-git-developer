@@ -29,17 +29,39 @@ The AI developer uses E2B sandboxes for the remote execution of tasks. We acknow
 - e2b api key: https://e2b.dev/docs/getting-started/api-key
 
 ## How to start
+0. Setup all requirements and gather api keys
 1. Clone this repository
-2. Install dependencies: Poetry, Git cli,
+2. Install all requirements
+3. Run Poetry install
 ```sh
 poetry install
-sudo apt update; sudo apt install gh OR brew install gh OR check [url]
 
 ```
-3. Run `poetry run create-ai-assistant` to create a new AI assistant, which is mandatory for the setup.
-4. Get the assistant ID from the console output and set it in the `.env` file as `AI_ASSISTANT_ID`
+4. Run `poetry run create-ai-assistant` to create a new AI assistant.
+5. Get the assistant ID from the console output and set it in the `.env` file as `AI_ASSISTANT_ID`
+5. Rename `.env.example` to `.env` and set up the `OPENAI_API_KEY` key and the `E2B_API_KEY` key. 
 
-5. Rename `.env.example` to `.env` and set up the `OPENAI_API_KEY` key and the `E2B_API_KEY` key. You can get `E2B_API_KEY` at  https://e2b.dev/docs/getting-started/api-key
+.env.example file content:
+```sh
+# Get the E2B_API_KEY https://e2b.dev/docs/getting-started/api-key
+E2B_API_KEY=
+
+# Get the OpenAI API key at https://platform.openai.com
+OPENAI_API_KEY=
+
+# OpenAI assistant ID. You can get it by running `npm run create-ai-assistant` and copying the ID from the output.
+# If you already created an assistant, you can get ID by visiting https://platform.openai.com/assistants
+AI_ASSISTANT_ID=
+
+# Provide GitHub token with following permissions:
+# - read:org
+# - read:project
+# - repo
+#
+# Find or create your token at https://github.com/settings/tokens
+GITHUB_TOKEN=
+```
+
 
 6. Start the app:
 ```sh
@@ -66,7 +88,7 @@ Please create an issue here in github
 
 
 ## License
-Licensed under the GPL License, Version 3.0 [Copy of the license](LICENSE.txt).
+Licensed under the GPL License, Version 3.0 [Copy of the license](LICENSE).
 
 
 ## Have an idea? Notice a bug? Need help?
@@ -77,7 +99,7 @@ Feel free to log an issue on our [GitHub issues page](https://github.com/natzar/
 
 - Repository url: [natzar/ai-developer](https://github.com/natzar/ai-developer)
 - [What is Ai Developer & what it does](#stripe-pad)
-- [How it works? Development internals](#development-internals)
+- [How it works? Ful step by step guide made by e2b](https://github.com/e2b-dev/e2b-cookbook/blob/main/guides/ai-github-developer-py/guide/README.md)
 - [How to contribute](#how-to-contribute)
 - [License](#license)
 
