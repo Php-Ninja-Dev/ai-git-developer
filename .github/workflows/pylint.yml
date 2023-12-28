@@ -39,7 +39,7 @@ jobs:
     - name: Commit formatting changes
       if: steps.changes.outputs.changes == 'true'
       run: |
-        git config --global user.name 'Your Name'
-        git config --global user.email 'your-email@example.com'
+        git config --global user.name 'Ai Developer'
+        git config --global user.email 'ai-developer@ai-developer.com'
         git commit -am "Apply autopep8 formatting"
         git push              
