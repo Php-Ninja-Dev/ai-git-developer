@@ -4,7 +4,9 @@ import json
 import time
 import os
 from rich import print
-from rich.console import Console
+import traceback
+
+
 from rich.theme import Theme
 from rich.prompt import Prompt
 from dotenv import load_dotenv
@@ -141,7 +143,13 @@ def clone_repo_in_sandbox(sandbox, repo_url):
     git_clone_proc = sandbox.process.start_and_wait(
         f"git clone {repo_url} {REPO_DIRECTORY}"
     )
-    if git_clone_proc.exit_code != 0:
+def log_error_to_debug_file(error_message):
+    """Append the error message to the debug.log file."""
+    with open(f'{REPO_DIRECTORY}/ai_developer/debug.log', 'a') as debug_file:
+        timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime())
+        debug_file.write(f'[{timestamp}] {error_message}\n')
+
+
         print("[bold #FF0000][Sandbox] [/bold #FF0000]Error: Unable to clone the repo")
         exit(1)
 
@@ -159,6 +167,7 @@ def display_help_menu():
     console.print("- restart: Restart the program from the beginning")
     console.print("- <task description>: Describe a new task for the AI developer")
 
+
 def main():
     global USER_GITHUB_TOKEN
 
@@ -173,7 +182,13 @@ def main():
     print("\n🤖[#E57B00][bold] AI developer[/#E57B00][/bold]")
     if USER_GITHUB_TOKEN is None:
         USER_GITHUB_TOKEN = prompt_user_for_auth()
-    else:
+        except Exception as e:
+            error_trace = traceback.format_exc()
+            log_error_to_debug_file(error_trace)
+            console.print(f"[bold red]Error:[/] {e}")
+            raise
+
+
         print("\n✅ [#666666]GitHub token loaded[/#666666]\n")
 
     # Setup git right away so user knows immediatelly if they passed wrong token
@@ -186,9 +201,8 @@ def main():
     while True:
         user_task = prompt_user_for_task(repo_url)
 
-	    # Inserted logic for handling user input
         if user_task.lower() == "quit":
-	        break  # Exit the main loop, effectively ending the program
+            break  # Exit the main loop, effectively ending the program
         elif user_task.lower() == "help":
             display_help_menu()  # Yet to be defined
         elif user_task.lower() == "restart":

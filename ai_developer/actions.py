@@ -112,7 +112,10 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         f"git -C {REPO_DIRECTORY} checkout -b {new_branch_name}"
     )
     if git_checkout_proc.exit_code != 0:
-        error = f"Error creating a new git branch {new_branch_name}: {git_checkout_proc.stdout}\n\t{git_checkout_proc.stderr}"
+    console.print(
+        f"[sandbox_action] [Sandbox Action][/sandbox_action] {action_type}: {action_message}"
+    )
+
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
 
@@ -124,9 +127,16 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
             f"Error pushing changes: {git_push_proc.stdout}\n\t{git_push_proc.stderr}"
         )
         console.print("\t[bold red]Error:[/bold red]", error)
+        response = "\n".join([
+            f"dir: {file.name}" if file.is_dir else file.name for file in files
+        ])
+        return response
+
+
+        error = f"Error adding files to staging: {git_add_proc.stdout}\n\t{git_add_proc.stderr}"
+        console.print("\t[bold red]Error:[/bold red]", error)
         return error
 
-    gh_pull_request_proc = sandbox.process.start_and_wait(
         cmd=f'gh pr create --base "{base_branch}" --head "{new_branch_name}" --title "{title}" --body "{body}"'.replace(
             "`", "\`"
         ),
@@ -135,7 +145,10 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     if gh_pull_request_proc.exit_code != 0:
         error = f"Error creating pull request: {gh_pull_request_proc.stdout}\n\t{gh_pull_request_proc.stderr}"
         console.print("\t[bold red]Error:[/bold red]", error)
+        error = f"Error committing changes: {git_commit_proc.stdout}\n\t{git_commit_proc.stderr}"
+        console.print("\t[bold red]Error:[/bold red]", error)
         return error
+
 
     return "success"
 
