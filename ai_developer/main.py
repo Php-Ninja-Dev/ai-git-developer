@@ -199,7 +199,7 @@ def main():
             messages=[
                 {
                     "role": "user",
-                    "content": f"Carefully plan this task and start working on it: {user_task} in the {repo_url} repo",
+                    "content": f"Carefully plan this task and start working on it: {user_task} in the {repo_url} repo.  Dont explain me the plan, make the changes inmediately.",
                 },
             ],
         )
