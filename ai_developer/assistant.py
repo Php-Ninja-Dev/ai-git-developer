@@ -50,12 +50,12 @@ def create_assistant():
                     "properties": {
                         "working_directory": {
                             "type": "string",
-                            "description": "The working directory where the git pull command should be executed, defaults to REPO_DIRECTORY"
+                            "description": "The working directory where the git pull command should be executed, defaults to REPO_DIRECTORY",
                         }
                     },
-                    "required": []
-                }
-            }
+                    "required": [],
+                },
+            },
         },
         {
             "type": "function",
