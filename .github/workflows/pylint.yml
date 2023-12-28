@@ -27,6 +27,12 @@ jobs:
     - name: Format code with autopep8
       run: |
         poetry run autopep8 --in-place --aggressive --aggressive --recursive .
+    - name: Install Black
+      run: |
+        pip install black
+    - name: Format code with Black
+      run: |
+        black .        
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
