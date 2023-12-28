@@ -36,9 +36,11 @@ poetry install
 sudo apt update; sudo apt install gh OR brew install gh OR check [url]
 
 ```
-3. Rename `.env.example` to `.env` and set up the `OPENAI_API_KEY` key and the `E2B_API_KEY` key. You can get `E2B_API_KEY` at  https://e2b.dev/docs/getting-started/api-key
-4. Run `poetry run create-ai-assistant` to create a new AI assistant, which is mandatory for the setup.
-5. Get the assistant ID from the console output and set it in the `.env` file as `AI_ASSISTANT_ID`
+3. Run `poetry run create-ai-assistant` to create a new AI assistant, which is mandatory for the setup.
+4. Get the assistant ID from the console output and set it in the `.env` file as `AI_ASSISTANT_ID`
+
+5. Rename `.env.example` to `.env` and set up the `OPENAI_API_KEY` key and the `E2B_API_KEY` key. You can get `E2B_API_KEY` at  https://e2b.dev/docs/getting-started/api-key
+
 6. Start the app:
 ```sh
 poetry run start
@@ -73,8 +75,8 @@ Feel free to log an issue on our [GitHub issues page](https://github.com/natzar/
 
 ## Links
 
-- Repository url: [www.stripepad.com](https://www.stripepad.com)
-- [What is Stripe Pad & what it does](#stripe-pad)
+- Repository url: [natzar/ai-developer](https://github.com/natzar/ai-developer)
+- [What is Ai Developer & what it does](#stripe-pad)
 - [How it works? Development internals](#development-internals)
 - [How to contribute](#how-to-contribute)
 - [License](#license)
