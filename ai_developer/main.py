@@ -12,7 +12,7 @@ from rich.prompt import Prompt
 
 import openai
 
-from ai_github_developer.actions import (
+from ai_developer.actions import (
     create_directory,
     read_file,
     save_content_to_file,
