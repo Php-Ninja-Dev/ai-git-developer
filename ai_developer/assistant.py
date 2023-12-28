@@ -43,6 +43,23 @@ def create_assistant():
         {
             "type": "function",
             "function": {
+                "name": "git_pull",
+                "description": "Executes a git pull command in the specified directory",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "working_directory": {
+                            "type": "string",
+                            "description": "The working directory where the git pull command should be executed, defaults to REPO_DIRECTORY"
+                        }
+                    },
+                    "required": []
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
                 "name": "save_content_to_file",
                 "description": "Save content (code or text) to file",
                 "parameters": {

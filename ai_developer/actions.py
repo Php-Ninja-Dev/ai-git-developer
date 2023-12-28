@@ -166,3 +166,19 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         return error
 
     return "success"
+
+
+def git_pull(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    working_directory = args.get("working_directory", REPO_DIRECTORY)
+    print_sandbox_action("Executing git pull in", working_directory)
+
+    try:
+        git_pull_proc = sandbox.process.start_and_wait(f"git -C {working_directory} pull")
+        if git_pull_proc.exit_code != 0:
+            error = f"Error pulling changes: {git_pull_proc.stdout}\n\t{git_pull_proc.stderr}"
+            console.print("\t[bold red]Error:[/bold red]", error)
+            return error
+
+        return "success"
+    except Exception as e:
+        return f"Error: {e}"
