@@ -7,7 +7,6 @@ load_dotenv()
 
 
 def create_assistant():
-
     """Perform [brief description of the function's action].
 
     Args:

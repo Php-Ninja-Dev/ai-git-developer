@@ -19,6 +19,7 @@ from ai_github_developer.actions import (
     REPO_DIRECTORY,
 )
 
+
 class MyPrompt(Prompt):
     prompt_suffix = ""
 
@@ -43,7 +44,6 @@ assistant = client.beta.assistants.retrieve(AI_ASSISTANT_ID)
 
 
 def prompt_user_for_github_repo():
-
     global user_repo
     user_repo = MyPrompt.ask(
         "\nWhat GitHub repo do you want to work in? Specify it like this: [bold #E0E0E0]your_username/your_repo_name[/bold #E0E0E0].\n> "
@@ -90,7 +90,10 @@ def setup_git(sandbox):
         f"echo {USER_GITHUB_TOKEN} | gh auth login --with-token"
     )
     if proc.exit_code != 0:
-        print("[bold #FF0000][Sandbox] [/bold #FF0000]Error: Unable to log into GitHub", end="\n")
+        print(
+            "[bold #FF0000][Sandbox] [/bold #FF0000]Error: Unable to log into GitHub",
+            end="\n",
+        )
         print(proc.stderr)
         print(proc.stdout)
         exit(1)
@@ -98,7 +101,9 @@ def setup_git(sandbox):
     # Setup user's Git credentials
     proc = sandbox.process.start_and_wait("gh auth setup-git")
     if proc.exit_code != 0:
-        print("[bold #FF0000][Sandbox] [/bold #FF0000]Error: Unable to set up Git auth with GitHub")
+        print(
+            "[bold #FF0000][Sandbox] [/bold #FF0000]Error: Unable to set up Git auth with GitHub"
+        )
         print(proc.stderr)
         print(proc.stdout)
         exit(1)
@@ -128,11 +133,12 @@ def display_help_menu():
     console.print("Help Menu:")
     console.print("- quit: Exit the program")
     console.print("- restart: Restart the program from the beginning")
-    console.print(
-        "- <task description>: Describe a new task for the AI developer")
+    console.print("- <task description>: Describe a new task for the AI developer")
+
 
 def quit():
-	print("QUIT")
+    print("QUIT")
+
 
 def main():
     """Perform [brief description of the function's action].
@@ -146,7 +152,7 @@ def main():
 
     Raises:
         ErrorType: Description of error.
-    """	
+    """
     global USER_GITHUB_TOKEN
 
     # Create the E2B sandbox
@@ -164,7 +170,8 @@ def main():
     else:
         print("\n✅ [#666666]GitHub token loaded[/#666666]\n")
 
-    # Setup git right away so user knows immediatelly if they passed wrong token
+    # Setup git right away so user knows immediatelly if they passed wrong
+    # token
     setup_git(sandbox)
 
     # Clone repo
