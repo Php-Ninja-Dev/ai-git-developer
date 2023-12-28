@@ -171,6 +171,7 @@ def main():
 
 
     print("\n🤖[#E57B00][bold] AI developer[/#E57B00][/bold]")
+    print("\n🤖[#E57B00] reset / quit / help [/#E57B00]")
     if USER_GITHUB_TOKEN is None:
         USER_GITHUB_TOKEN = prompt_user_for_auth()
     else:
