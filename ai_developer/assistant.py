@@ -49,21 +49,21 @@ def create_assistant():
                             "description": "The path to the file, including extension",
                         },
                     },
-                    "required": ["line_number", "new_content","path"],
+                    "required": ["line_number", "new_content", "path"],
                 },
             },
         },
         {
-        "type": "function",
+            "type": "function",
             "function": {
                 "name": "send_email",
-       			"descruotuin": "Send email to recipients",
+                        "descruotuin": "Send email to recipients",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "recipients": {
                             "type": "array",
-                            "items": { "type": "string" },
+                            "items": {"type": "string"},
                             "description": "List of email recipients"
                         },
                         "subject": {
@@ -180,7 +180,7 @@ def create_assistant():
                             "description": "The commit message"
                         }
                     },
-                    "required": ["ftp_server","ftp_path","local_path","username","password"]
+                    "required": ["ftp_server", "ftp_path", "local_path", "username", "password"]
                 }
             }
         },
@@ -193,7 +193,7 @@ def create_assistant():
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        
+
                     },
                 },
             },

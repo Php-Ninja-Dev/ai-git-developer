@@ -14,7 +14,8 @@ class WebdriverAction:
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-dev-shm-usage')
-        self.driver = webdriver.Chrome(self.executable_path, options=chrome_options)
+        self.driver = webdriver.Chrome(
+            self.executable_path, options=chrome_options)
 
     def visit_webpage(self, url):
         if not self.driver:
