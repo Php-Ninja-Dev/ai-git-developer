@@ -27,7 +27,7 @@ jobs:
         poetry install
     - name: Format code with autopep8
       run: |
-        autopep8 --in-place --aggressive --aggressive --recursive .
+        poetry run autopep8 --in-place --aggressive --aggressive --recursive .
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
