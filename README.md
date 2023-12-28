@@ -45,8 +45,8 @@ poetry run start
 ```
 # Authors
 
-- Tereza Tizkova https://twitter.com/tereza_tizkova for e2b.dev
-- Beto Ayesa
+- [@tereza_tizkova](https://twitter.com/tereza_tizkova)
+- [@betoayesa](https://twitter.com/betoayesa)
 
 # Roadmap
 
@@ -63,7 +63,19 @@ Read contributions guidelines and start creating pull requests.
 Please create an issue here in github
 
 
-# License
+## License
+Licensed under the GPL License, Version 3.0 [Copy of the license](LICENSE.txt).
 
-GPL-3. Check LICENSE.md
+
+## Have an idea? Notice a bug? Need help?
+
+Feel free to log an issue on our [GitHub issues page](https://github.com/natzar/ai-developer/issues). 
+
+## Links
+
+- Repository url: [www.stripepad.com](https://www.stripepad.com)
+- [What is Stripe Pad & what it does](#stripe-pad)
+- [How it works? Development internals](#development-internals)
+- [How to contribute](#how-to-contribute)
+- [License](#license)
 
