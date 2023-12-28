@@ -1,8 +1,8 @@
 # AI Developer
-DISCLAIMER: Based on https://github.com/e2b-dev/e2b-cookbook/tree/main/guides/ai-github-developer-py, an example of ai developer based on e2b service, discovered on twitter https://twitter.com/tereza_tizkova/status/1737185638141644995 by @betoayesa who did not wait much on cloning the repo try to extend it.
+[![License: GPL3](https://img.shields.io/github/license/natzar/ai-developer)](https://github.com/natzar/ai-developer/blob/main/LICENSE.md)
+> 🚧 **Note**: This project is in early development. Use in production environments is not recommended.
 
-Right now it's not working, but you can try it.
-Actions are working, communication with the bot is working, but it's overwriting files, prompts are not working well.
+DISCLAIMER: Based on [e2b dev cookbook example](https://github.com/e2b-dev/e2b-cookbook/tree/main/guides/ai-github-developer-py), made by [Tereza Tizkova](https://twitter.com/tereza_tizkova), [discovered on twitter](https://twitter.com/tereza_tizkova/status/1737185638141644995) [by @betoayesa](https://twitter.com/betoayesa) who did not wait much on cloning the repo to try to extend it.
 
 ![Gif from developer](assets/run_example.gif)
 
@@ -21,12 +21,12 @@ The AI developer uses E2B sandboxes for the remote execution of tasks. We acknow
 
 ## Requirements
 - Python v3
-- Poetry
-- Github CLI Client
-- OpenAi API key
-- Github Api key
-- OpenAi Assistant Id
-- e2b api key 
+- Poetry: curl -sSL https://install.python-poetry.org | python3 -
+- Github CLI Client: https://github.com/cli/cli#installation 
+- OpenAi API key: https://platform.openai.com
+- Github Api key: https://github.com/settings/tokens
+- OpenAi Assistant Id: Keep reading
+- e2b api key: https://e2b.dev/docs/getting-started/api-key
 
 ## How to start
 1. Clone this repository
