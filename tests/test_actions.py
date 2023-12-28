@@ -1,6 +1,4 @@
-import pytest
-from ai_developer.actions import create_directory
-
-def test_create_directory():
-    # Replace with the logic of your test
-    assert create_directory("/path/to/directory") == expected_result
+    def test_create_directory(self):
+        # Test case to create a directory
+        response = create_directory('/home/user/repo/tests/test_directory')
+        assert response == 'success'
