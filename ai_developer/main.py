@@ -1,5 +1,8 @@
 """
 AI DEVELOPER
+main.py
+github.com/natzar/ai-developer
+
 """
 import time
 import os
