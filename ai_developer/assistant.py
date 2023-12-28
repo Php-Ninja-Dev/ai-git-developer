@@ -64,9 +64,9 @@ def create_assistant():
                         "line_number": {
                             "type": "integer",
                             "description": "The line number to modify, required if mode is modify_line",
-                        }
+                        },
                     },
-                    "required": ["mode","content", "path"],
+                    "required": ["mode", "content", "path"],
                 },
             },
         },

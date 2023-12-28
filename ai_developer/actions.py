@@ -35,12 +35,12 @@ def create_directory(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         return f"Error: {e}"
 
 
-
 def save_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     path = args["path"]
     content = args["content"]
     mode = args.get("mode", "overwrite")  # Default mode is 'overwrite'
-    line_number = args.get("line_number", None)  # Used for 'insert' and 'modify_line' modes
+    # Used for 'insert' and 'modify_line' modes
+    line_number = args.get("line_number", None)
 
     print_sandbox_action("Saving content to", path)
 
@@ -55,12 +55,15 @@ def save_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
             new_content = existing_content + "\n" + content
             sandbox.filesystem.write(path, new_content)
         elif mode in ["insert", "modify_line"]:
-            new_content = modify_or_insert_content(sandbox, path, content, line_number, mode)
+            new_content = modify_or_insert_content(
+                sandbox, path, content, line_number, mode
+            )
             sandbox.filesystem.write(path, new_content)
-        
+
         return "Success"
     except Exception as e:
         return f"Error: {e}"
+
 
 def modify_or_insert_content(sandbox, path, content, line_number, mode):
     existing_content = sandbox.filesystem.read(path)
