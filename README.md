@@ -6,7 +6,7 @@ DISCLAIMER: Based on [e2b dev cookbook example](https://github.com/e2b-dev/e2b-c
 
 ![Gif from developer](assets/run_example.gif)
 
-An AI assistant for developers, originally based on a example from  [E2B-dev](https://e2b.dev) 
+An AI assistant for developers, originally based on a example from  [!][E2B-dev](https://e2b.dev) 
 
 A custom AI assistant that can clone any GitHub repository to its remote cloud environment, work on the repo there, and then make pull request to GitHub.
 
