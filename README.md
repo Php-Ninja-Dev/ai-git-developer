@@ -1,14 +1,11 @@
 # AI Developer
 
 [![License: GPL3](https://img.shields.io/github/license/natzar/ai-developer)](https://github.com/natzar/ai-developer/blob/main/LICENSE.md)
-
+A custom AI assistant that can clone any GitHub repository to its remote cloud environment, work on the repo there, and then make pull request to GitHub.
 ![Gif from developer](run_example.gif)
 
 Based on [e2b dev cookbook example](https://github.com/e2b-dev/e2b-cookbook/tree/main/guides/ai-github-developer-py), made by [Tereza Tizkova](https://twitter.com/tereza_tizkova), [discovered on twitter](https://twitter.com/tereza_tizkova/status/1737185638141644995) [by @betoayesa](https://twitter.com/betoayesa) who did not wait much on cloning the repo to try to extend it.
 
-A custom AI assistant that can clone any GitHub repository to its remote cloud environment, work on the repo there, and then make pull request to GitHub.
-
-The AI developer uses E2B sandboxes for the remote execution of tasks. We acknowledge the initial example provided by E2B-dev, which has been extensively customized and expanded for this project.
 
 ### Features
 - Works directly any GitHub repository and makes a PR once done
@@ -26,15 +23,16 @@ The AI developer uses E2B sandboxes for the remote execution of tasks. We acknow
 - e2b api key: https://e2b.dev/docs/getting-started/api-key
 
 ## How to start
-0. Clone this repository
-1. Setup all requirements and gather api keys
-2. Run Poetry install & create-ai-assistant to create a new openai assistant ang get assistand id
+
+Clone this repository and setup all requirements and api keys.
+
+1. Open a terminal, change to the project's folder and run Poetry install & create-ai-assistant to create a new openai assistant 
 ```sh
 poetry install
 poetry run create-ai-assistant
 ```
-3. Get the assistant ID from the console output and set it in the `.env` file as `AI_ASSISTANT_ID`
-4. Rename `.env.example` to `.env` and set up the `OPENAI_API_KEY` key and the `E2B_API_KEY` key. 
+2. Copy the assistant ID from the console output
+3. Rename `.env.example` to `.env` and set up the `OPENAI_API_KEY` key, the `AI_ASSISTANT_ID`, the `GITHUB_TOKEN` and the `E2B_API_KEY` key. 
 
 ```sh
 ## .env.example file content
@@ -57,8 +55,7 @@ AI_ASSISTANT_ID=
 # Find or create your token at https://github.com/settings/tokens
 GITHUB_TOKEN=
 ```
-
-6. Start the app:
+4. Start the app:
 ```sh
 poetry run start
 ```
@@ -67,16 +64,10 @@ poetry run start
 - [@tereza_tizkova](https://twitter.com/tereza_tizkova)
 - [@betoayesa](https://twitter.com/betoayesa)
 
-## Roadmap
-
-- Prepare the bases for openning it to contributions.
-- Fixing pylint errors to automatize workflow
-
-- Fix AI Developer file modifications management (Most important first step)
 
 ## Contribute
 
-Read contributions guidelines and start creating pull requests.
+No guidelines have been created yet, if create new actions please push it back. Open to pull requests.
 
 
 
