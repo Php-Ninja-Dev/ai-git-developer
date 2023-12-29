@@ -23,7 +23,37 @@ def print_sandbox_action(action_type: str, action_message: str):
     )
 
 
-# List of actions for the assistant
+def save_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    path = args["path"]
+    content = args["content"]
+    mode = args.get("mode", "overwrite")  # Default mode is 'overwrite'
+    # Used for 'insert' and 'modify_line' modes
+    line_number = args.get("line_number", None)
+
+    action_message = f"File path: {path}, Mode: {mode}"
+    if line_number is not None:
+        action_message += f", Line number: {line_number}"
+    print_sandbox_action("Modifying file", action_message)
+
+    try:
+        _dir = os.path.dirname(path)
+        sandbox.filesystem.make_dir(_dir)
+
+        if mode == "overwrite":
+            sandbox.filesystem.write(path, content)
+        elif mode == "append":
+            existing_content = sandbox.filesystem.read(path)
+            new_content = existing_content + "\n" + content
+            sandbox.filesystem.write(path, new_content)
+        elif mode in ["insert", "modify_line"]:
+            new_content = modify_or_insert_content(
+                sandbox, path, content, line_number, mode
+            )
+            sandbox.filesystem.write(path, new_content)
+
+        return "Success"
+    except Exception as e:
+        return f"Error: {e}"
 def create_directory(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     _directory = args["path"]
     print_sandbox_action("Creating directory", _directory)
