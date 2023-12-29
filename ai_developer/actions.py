@@ -199,3 +199,19 @@ def git_pull(sandbox: Sandbox, args: Dict[str, Any]) -> str:
 # - Code complexity analysis
 # - Automated generation of code documentation
 # - Performance profiling and optimization suggestions
+
+
+def execute_pylint(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    path = args.get("path", REPO_DIRECTORY)
+    print_sandbox_action("Running pylint on", path)
+
+    pylint_cmd = f'pylint {path}'
+    pylint_proc = sandbox.process.start_and_wait(pylint_cmd)
+    if pylint_proc.exit_code != 0:
+        error = pylint_proc.stderr.strip()
+        console.print("[bold red]Pylint Errors:[/bold red]", error)
+        return error
+
+    output = pylint_proc.stdout.strip()
+    console.print("[bold green]Pylint Output:[/bold green]\n", output)
+    return output

@@ -50,7 +50,24 @@ def create_assistant():
                     "properties": {
                         "working_directory": {
                             "type": "string",
-                            "description": "The working directory where the git pull command should be executed, defaults to REPO_DIRECTORY",
+        {
+            "type": "function",
+            "function": {
+                "name": "execute_pylint",
+                "description": "Executes pylint and prints out the output",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "path": {
+                            "type": "string",
+                            "description": "The path to the directory or file to run pylint on, defaults to REPO_DIRECTORY",
+                            "default": "REPO_DIRECTORY"
+                        }
+                    },
+                    "required": [],
+                },
+            },
+        },
                         }
                     },
                     "required": [],
