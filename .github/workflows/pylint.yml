@@ -38,5 +38,5 @@ jobs:
       run: |
         git config --global user.name 'Ai Developer'
         git config --global user.email 'ai-developer@ai-developer.com'
-        git commit -am "Apply autopep8 formatting"
+        git commit -am "Apply BLACK formatting"
         git push              
