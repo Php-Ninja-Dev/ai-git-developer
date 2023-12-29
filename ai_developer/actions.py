@@ -113,9 +113,7 @@ def commit(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     git_add_proc = sandbox.process.start_and_wait(
         f"git -C {repo_directory} add .")
     if git_add_proc.exit_code != 0:
-        error = f"Error adding files to staging: {
-            git_add_proc.stdout}\n\t{
-            git_add_proc.stderr}"
+        error = f"Error adding files to staging: {git_add_proc.stdout}\n\t{git_add_proc.stderr}"
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
 
@@ -123,9 +121,7 @@ def commit(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         f"git -C {repo_directory} commit -m '{commit_message}'"
     )
     if git_commit_proc.exit_code != 0:
-        error = f"Error committing changes: {
-            git_commit_proc.stdout}\n\t{
-            git_commit_proc.stderr}"
+        error = f"Error committing changes: {git_commit_proc.stdout}\n\t{git_commit_proc.stderr}"
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
 
