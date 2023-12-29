@@ -67,6 +67,20 @@ def save_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     except Exception as e:
         return f"Error: {e}"
 
+def modify_or_insert_content(sandbox, path, content, line_number, mode):
+    existing_content = sandbox.filesystem.read(path)
+    lines = existing_content.split("\n")
+
+    if mode == "insert":
+        if line_number is not None and 0 <= line_number < len(lines):
+            lines.insert(line_number, content)
+        else:
+            lines.append(content)
+    elif mode == "modify_line":
+        if line_number is not None and 0 <= line_number < len(lines):
+            lines[line_number] = content
+
+    return "\n".join(lines)
 
 
 
