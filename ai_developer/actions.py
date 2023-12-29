@@ -145,8 +145,7 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         f"git -C {REPO_DIRECTORY} checkout -b {new_branch_name}"
     )
     if git_checkout_proc.exit_code != 0:
-        error = f"Error creating a new git branch {new_branch_name}: {
-            git_checkout_proc.stdout}\n\t{git_checkout_proc.stderr}"
+        error = f"Error creating a new git branch {new_branch_name}: {git_checkout_proc.stdout}\n\t{git_checkout_proc.stderr}"
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
 
@@ -155,9 +154,7 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     )
     if git_push_proc.exit_code != 0:
         error = (
-            f"Error pushing changes: {
-                git_push_proc.stdout}\n\t{
-                git_push_proc.stderr}")
+            f"Error pushing changes: {git_push_proc.stdout}\n\t{git_push_proc.stderr}")
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
 
@@ -168,9 +165,7 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
         cwd=REPO_DIRECTORY,
     )
     if gh_pull_request_proc.exit_code != 0:
-        error = f"Error creating pull request: {
-            gh_pull_request_proc.stdout}\n\t{
-            gh_pull_request_proc.stderr}"
+        error = f"Error creating pull request: {gh_pull_request_proc.stdout}\n\t{gh_pull_request_proc.stderr}"
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
 
@@ -186,9 +181,7 @@ def git_pull(sandbox: Sandbox, args: Dict[str, Any]) -> str:
             f"git -C {working_directory} pull"
         )
         if git_pull_proc.exit_code != 0:
-            error = f"Error pulling changes: {
-                git_pull_proc.stdout}\n\t{
-                git_pull_proc.stderr}"
+            error = f"Error pulling changes: {git_pull_proc.stdout}\n\t{git_pull_proc.stderr}"
             console.print("\t[bold red]Error:[/bold red]", error)
             return error
 
