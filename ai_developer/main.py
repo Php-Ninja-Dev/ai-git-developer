@@ -38,7 +38,7 @@ custom_theme = Theme(
 )
 console = Console(theme=custom_theme)
 
-USER_GITHUB_TOKEN = None
+
 AI_ASSISTANT_ID = None
 user_repo = None
 
@@ -46,7 +46,7 @@ load_dotenv()
 client = openai.Client()
 
 AI_ASSISTANT_ID = os.getenv("AI_ASSISTANT_ID")
-USER_GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+
 assistant = client.beta.assistants.retrieve(AI_ASSISTANT_ID)
 
 
@@ -69,7 +69,8 @@ def prompt_user_for_task(repo_url):
     )
     user_task = (
         f"Please work with the codebase repo called {repo_url} "
-        f"that is cloned in the /home/user/repo directory. React on the following user's comment: {user_task_specification}"
+        f"that is cloned in the /home/user/repo directory. React on the following user's comment: {
+            user_task_specification}"
     )
     print("", end="\n")
     return user_task
@@ -84,13 +85,14 @@ def prompt_user_for_auth():
     return user_auth
 
 
-def setup_git(sandbox):
+def setup_git(sandbox, USER_GITHUB_TOKEN):
     print("Logging into GitHub...")
     # Identify AI developer in git
     sandbox.process.start_and_wait(
         "git config --global user.email 'ai-developer@email.com'"
     )
-    sandbox.process.start_and_wait("git config --global user.name 'AI Developer'")
+    sandbox.process.start_and_wait(
+        "git config --global user.name 'AI Developer'")
 
     # Login user to GitHub
     proc = sandbox.process.start_and_wait(
@@ -140,33 +142,100 @@ def display_help_menu():
     console.print("Help Menu:")
     console.print("- quit: Exit the program")
     console.print("- restart: Restart the program from the beginning")
-    console.print("- <task description>: Describe a new task for the AI developer")
+    console.print(
+        "- <task description>: Describe a new task for the AI developer")
 
 
 def quit():
     print("QUIT")
 
 
+def handle_new_task(user_task):
+    thread = client.beta.threads.create(messages=[{"role": "user", "content": f"Carefully plan this task and start working on it: {
+            user_task} in the {repo_url} repo.  Dont explain me the plan, make the changes inmediately.", }, ], )
+    run = client.beta.threads.runs.create(
+        thread_id=thread.id, assistant_id=assistant.id
+    )
+
+    # working on a task
+    spinner = ""
+    with console.status(spinner):
+        previous_status = None
+        while True:
+            if run.status != previous_status:
+                console.print(
+                    f"[bold #FF8800]>[/bold #FF8800] Assistant is currently in status: {
+                        run.status} [#666666](waiting for OpenAI)[/#666666]")
+                previous_status = run.status
+            if run.status == "requires_action":
+                outputs = sandbox.openai.actions.run(run)
+                if len(outputs) > 0:
+                    client.beta.threads.runs.submit_tool_outputs(
+                        thread_id=thread.id, run_id=run.id, tool_outputs=outputs)
+            elif run.status == "completed":
+                console.print("\n✅[#666666] Run completed[/#666666]")
+                messages = (
+                    client.beta.threads.messages.list(thread_id=thread.id)
+                    .data[0]
+                    .content
+                )
+                text_messages = [
+                    message for message in messages if message.type == "text"]
+                console.print(
+                    "Thread finished:",
+                    text_messages[0].text.value)
+                break
+
+            elif run.status in ["queued", "in_progress"]:
+                pass
+
+            elif run.status in ["cancelled", "cancelling", "expired", "failed"]:
+                break
+
+            else:
+                print(f"Unknown status: {run.status}")
+                break
+
+            run = client.beta.threads.runs.retrieve(
+                thread_id=thread.id, run_id=run.id
+            )
+            time.sleep(0.1)
+
+
+def main_loop(sandbox, repo_url):
+    while True:
+    	# Ready for new task
+        user_task = prompt_user_for_task(repo_url)
+        handle_new_task(user_task);
+        
+
+
 def main():
-    """Perform [brief description of the function's action].
-
-    Args:
-        param1 (type): Description of param1.
-        param2 (type): Description of param2.
-
-    Returns:
-        type: Description of return value.
-
-    Raises:
-        ErrorType: Description of error.
+    """Perform setup and main loop.
+    
     """
-    global USER_GITHUB_TOKEN
+     
+    print("\n🤖[#E57B00][bold] AI developer[/#E57B00][/bold]")
+
+    if os.getenv("E2B_API_KEY") is None:
+        print("\n👎[#666666]E2B API key not loaded[/#666666]\n")
+
+    if os.getenv("OPENAI_API_KEY") is None:
+        print("\n👎 [#666666]OpenAI key not loaded[/#666666]\n")
+
+    if os.getenv("AI_ASSISTANT_ID") is None:
+        print("\n👎 [#666666]OpenAI Assistant ID not loaded[/#666666]\n")
+
+    if os.getenv("GITHUB_TOKEN") is None:        
+        print("\n✅ [#666666]GitHub token loaded[/#666666]\n")
 
     # Create the E2B sandbox
     sandbox = Sandbox(
         on_stderr=handle_sandbox_stderr,
         on_stdout=handle_sandbox_stdout,
     )
+
+    # Link actions.py methods to sandbox
     sandbox.add_action(create_directory).add_action(read_file).add_action(
         save_content_to_file
     ).add_action(list_files).add_action(commit).add_action(
@@ -175,86 +244,15 @@ def main():
         git_pull
     )
 
-    print("\n🤖[#E57B00][bold] AI developer[/#E57B00][/bold]")
-    if USER_GITHUB_TOKEN is None:
-        USER_GITHUB_TOKEN = prompt_user_for_auth()
-    else:
-        print("\n✅ [#666666]GitHub token loaded[/#666666]\n")
-
     # Setup git right away so user knows immediatelly if they passed wrong
     # token
-    setup_git(sandbox)
+    setup_git(sandbox,os.getenv("GITHUB_TOKEN"))
 
     # Clone repo
     repo_url = prompt_user_for_github_repo()
     clone_repo_in_sandbox(sandbox, repo_url)
 
-    while True:
-        user_task = prompt_user_for_task(repo_url)
-
-        # Inserted logic for handling user input
-        if user_task.lower() == "quit":
-            return quit()  # Exit the main loop, effectively ending the program
-        elif user_task.lower() == "help":
-            display_help_menu()  # Yet to be defined
-        elif user_task.lower() == "restart":
-            return main()  # Call main() again to restart the program
-
-        thread = client.beta.threads.create(
-            messages=[
-                {
-                    "role": "user",
-                    "content": f"Carefully plan this task and start working on it: {user_task} in the {repo_url} repo.  Dont explain me the plan, make the changes inmediately.",
-                },
-            ],
-        )
-
-        run = client.beta.threads.runs.create(
-            thread_id=thread.id, assistant_id=assistant.id
-        )
-
-        spinner = ""
-        with console.status(spinner):
-            previous_status = None
-            while True:
-                if run.status != previous_status:
-                    console.print(
-                        f"[bold #FF8800]>[/bold #FF8800] Assistant is currently in status: {run.status} [#666666](waiting for OpenAI)[/#666666]"
-                    )
-                    previous_status = run.status
-                if run.status == "requires_action":
-                    outputs = sandbox.openai.actions.run(run)
-                    if len(outputs) > 0:
-                        client.beta.threads.runs.submit_tool_outputs(
-                            thread_id=thread.id, run_id=run.id, tool_outputs=outputs
-                        )
-                elif run.status == "completed":
-                    console.print("\n✅[#666666] Run completed[/#666666]")
-                    messages = (
-                        client.beta.threads.messages.list(thread_id=thread.id)
-                        .data[0]
-                        .content
-                    )
-                    text_messages = [
-                        message for message in messages if message.type == "text"
-                    ]
-                    console.print("Thread finished:", text_messages[0].text.value)
-                    break
-
-                elif run.status in ["queued", "in_progress"]:
-                    pass
-
-                elif run.status in ["cancelled", "cancelling", "expired", "failed"]:
-                    break
-
-                else:
-                    print(f"Unknown status: {run.status}")
-                    break
-
-                run = client.beta.threads.runs.retrieve(
-                    thread_id=thread.id, run_id=run.id
-                )
-                time.sleep(0.5)
+    main_loop(sandbox,repo_url)
 
 
 if __name__ == "__main__":

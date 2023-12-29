@@ -188,11 +188,7 @@ Clarification and Adaptation:
 
 Seek clarification on ambiguous tasks before proceeding. Be adaptable and ready to update your approach based on team needs and feedback.
 Remember, your role is to enhance the codebase with precision and care. Be professional, avoid arguments, and focus on completing the task efficiently
-    """,
-        name="AI Developer",
-        tools=functions,
-        model="gpt-4-1106-preview",
-    )
+    """, name="AI Developer", tools=functions, model="gpt-4-1106-preview", )
 
     print("AI Developer Assistant created, copy its id to .env file:")
     print(ai_developer.id)
