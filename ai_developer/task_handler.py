@@ -79,5 +79,5 @@ class TaskHandler:
 
     def retrieve_run(self, thread_id, run_id):
         run = self.client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run_id)
-        time.sleep(0.1)
+        time.sleep(0.5)
         return run
