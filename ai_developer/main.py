@@ -15,6 +15,8 @@ from rich.prompt import Prompt
 
 import openai
 
+from ai_developer.task_handler import TaskHandler
+
 from ai_developer.actions import (
     create_directory,
     read_file,
@@ -145,58 +147,6 @@ def display_help_menu():
     console.print(
         "- <task description>: Describe a new task for the AI developer")
 
-def handle_new_task(sandbox,user_task,repo_url):
-    thread = client.beta.threads.create(messages=[{"role": "user", "content": f"Carefully plan this task and start working on it: {
-            user_task} in the {repo_url} repo.  Dont explain me the plan, make the changes inmediately.", }, ], )
-    run = client.beta.threads.runs.create(
-        thread_id=thread.id, assistant_id=assistant.id
-    )
-
-    # working on a task
-    spinner = ""
-    with console.status(spinner):
-        previous_status = None
-        while True:
-            if run.status != previous_status:
-                console.print(
-                    f"[bold #FF8800]>[/bold #FF8800] Assistant is currently in status: {
-                        run.status} [#666666](waiting for OpenAI)[/#666666]")
-                previous_status = run.status
-            if run.status == "requires_action":
-                outputs = sandbox.openai.actions.run(run)
-                if len(outputs) > 0:
-                    client.beta.threads.runs.submit_tool_outputs(
-                        thread_id=thread.id, run_id=run.id, tool_outputs=outputs)
-            elif run.status == "completed":
-                console.print("\n✅[#666666] Run completed[/#666666]")
-                messages = (
-                    client.beta.threads.messages.list(thread_id=thread.id)
-                    .data[0]
-                    .content
-                )
-                text_messages = [
-                    message for message in messages if message.type == "text"]
-                console.print(
-                    "Thread finished:",
-                    text_messages[0].text.value)
-                break
-
-            elif run.status in ["queued", "in_progress"]:
-                pass
-
-            elif run.status in ["cancelled", "cancelling", "expired", "failed"]:
-                break
-
-            else:
-                print(f"Unknown status: {run.status}")
-                break
-
-            run = client.beta.threads.runs.retrieve(
-                thread_id=thread.id, run_id=run.id
-            )
-            time.sleep(0.1)
-
-
 def main():
     """Perform setup and main loop.
     
@@ -235,15 +185,19 @@ def main():
     # token
     setup_git(sandbox,os.getenv("GITHUB_TOKEN"))
 
+
     # Clone repo
     repo_url = prompt_user_for_github_repo()
     clone_repo_in_sandbox(sandbox, repo_url)
+    
+    # New Task Handler
+    task_handler = TaskHandler(client, sandbox, assistant, console)
 
     # main loop
     while True:
     	# Ready for new task
         user_task = prompt_user_for_task(repo_url)
-        handle_new_task(sandbox,user_task,repo_url);
+        task_handler.handle_new_task(user_task, repo_url)       
 
 if __name__ == "__main__":
     main()
