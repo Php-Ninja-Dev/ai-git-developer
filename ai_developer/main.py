@@ -91,8 +91,7 @@ def setup_git(sandbox, USER_GITHUB_TOKEN):
     sandbox.process.start_and_wait(
         "git config --global user.email 'ai-developer@email.com'"
     )
-    sandbox.process.start_and_wait(
-        "git config --global user.name 'AI Developer'")
+    sandbox.process.start_and_wait("git config --global user.name 'AI Developer'")
 
     # Login user to GitHub
     proc = sandbox.process.start_and_wait(
@@ -110,7 +109,9 @@ def setup_git(sandbox, USER_GITHUB_TOKEN):
     # Setup user's Git credentials
     proc = sandbox.process.start_and_wait("gh auth setup-git")
     if proc.exit_code != 0:
-        print("[bold #FF0000][Sandbox] [/bold #FF0000]Error: Unable to set up Git auth with GitHub")
+        print(
+            "[bold #FF0000][Sandbox] [/bold #FF0000]Error: Unable to set up Git auth with GitHub"
+        )
         print(proc.stderr)
         print(proc.stdout)
         exit(1)
@@ -140,14 +141,12 @@ def display_help_menu():
     console.print("Help Menu:")
     console.print("- quit: Exit the program")
     console.print("- restart: Restart the program from the beginning")
-    console.print(
-        "- <task description>: Describe a new task for the AI developer")
+    console.print("- <task description>: Describe a new task for the AI developer")
+
 
 def main():
-    """Perform setup and main loop.
-    
-    """
-     
+    """Perform setup and main loop."""
+
     print("\n🤖[#E57B00][bold] AI developer[/#E57B00][/bold]")
 
     if os.getenv("E2B_API_KEY") is None:
@@ -159,7 +158,7 @@ def main():
     if os.getenv("AI_ASSISTANT_ID") is None:
         print("\n👎 [#666666]OpenAI Assistant ID not loaded[/#666666]\n")
 
-    if os.getenv("GITHUB_TOKEN") is None:        
+    if os.getenv("GITHUB_TOKEN") is None:
         print("\n✅ [#666666]GitHub token loaded[/#666666]\n")
 
     # Create the E2B sandbox
@@ -179,21 +178,21 @@ def main():
 
     # Setup git right away so user knows immediatelly if they passed wrong
     # token
-    setup_git(sandbox,os.getenv("GITHUB_TOKEN"))
-
+    setup_git(sandbox, os.getenv("GITHUB_TOKEN"))
 
     # Clone repo
     repo_url = prompt_user_for_github_repo()
     clone_repo_in_sandbox(sandbox, repo_url)
-    
+
     # New Task Handler
     task_handler = TaskHandler(client, sandbox, assistant, console)
 
     # main loop
     while True:
-    	# Ready for new task
+        # Ready for new task
         user_task = prompt_user_for_task(repo_url)
-        task_handler.handle_new_task(user_task, repo_url)       
+        task_handler.handle_new_task(user_task, repo_url)
+
 
 if __name__ == "__main__":
     main()

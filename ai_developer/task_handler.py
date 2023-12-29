@@ -1,5 +1,6 @@
 import time
 
+
 class TaskHandler:
     def __init__(self, client, sandbox, assistant, console):
         self.client = client
@@ -14,10 +15,12 @@ class TaskHandler:
 
     def create_thread(self, user_task, repo_url):
         thread = self.client.beta.threads.create(
-            messages=[{
-                "role": "user",
-                "content": f"Carefully plan this task and start working on it: {user_task} in the {repo_url} repo."
-            }],
+            messages=[
+                {
+                    "role": "user",
+                    "content": f"Carefully plan this task and start working on it: {user_task} in the {repo_url} repo.",
+                }
+            ],
         )
         return thread.id
 
@@ -62,18 +65,22 @@ class TaskHandler:
 
     def display_status(self, run):
         self.console.print(
-            f"[bold #FF8800]>[/bold #FF8800] Assistant is currently in status: {run.status} [#666666](waiting for OpenAI)[/#666666]")
+            f"[bold #FF8800]>[/bold #FF8800] Assistant is currently in status: {run.status} [#666666](waiting for OpenAI)[/#666666]"
+        )
         return run.status
 
     def handle_action_required(self, thread_id, run):
         outputs = self.sandbox.openai.actions.run(run)
         if len(outputs) > 0:
             self.client.beta.threads.runs.submit_tool_outputs(
-                thread_id=thread_id, run_id=run.id, tool_outputs=outputs)
+                thread_id=thread_id, run_id=run.id, tool_outputs=outputs
+            )
 
     def handle_completion(self, thread_id):
         self.console.print("\n✅[#666666] Run completed[/#666666]")
-        messages = self.client.beta.threads.messages.list(thread_id=thread_id).data[0].content
+        messages = (
+            self.client.beta.threads.messages.list(thread_id=thread_id).data[0].content
+        )
         text_messages = [message for message in messages if message.type == "text"]
         self.console.print("Thread finished:", text_messages[0].text.value)
 

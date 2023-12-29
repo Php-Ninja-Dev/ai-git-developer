@@ -110,8 +110,7 @@ def commit(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     commit_message = args["message"]
     print_sandbox_action("Committing with the message", commit_message)
 
-    git_add_proc = sandbox.process.start_and_wait(
-        f"git -C {repo_directory} add .")
+    git_add_proc = sandbox.process.start_and_wait(f"git -C {repo_directory} add .")
     if git_add_proc.exit_code != 0:
         error = f"Error adding files to staging: {git_add_proc.stdout}\n\t{git_add_proc.stderr}"
         console.print("\t[bold red]Error:[/bold red]", error)
@@ -130,8 +129,7 @@ def commit(sandbox: Sandbox, args: Dict[str, Any]) -> str:
 
 def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     base_branch = "main"
-    random_letters = "".join(random.choice(
-        string.ascii_letters) for _ in range(5))
+    random_letters = "".join(random.choice(string.ascii_letters) for _ in range(5))
     new_branch_name = f"ai-developer-{random_letters}"
 
     title = args["title"]
@@ -154,7 +152,8 @@ def make_pull_request(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     )
     if git_push_proc.exit_code != 0:
         error = (
-            f"Error pushing changes: {git_push_proc.stdout}\n\t{git_push_proc.stderr}")
+            f"Error pushing changes: {git_push_proc.stdout}\n\t{git_push_proc.stderr}"
+        )
         console.print("\t[bold red]Error:[/bold red]", error)
         return error
 
