@@ -45,7 +45,7 @@ def save_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     action_message = f"File path: {path}, Mode: {mode}"
     if line_number is not None:
         action_message += f", Line number: {line_number}"
-    print_sandbox_action("Modifying file", action_message)    
+    print_sandbox_action("Modifying file", action_message)
 
     try:
         _dir = os.path.dirname(path)
@@ -67,6 +67,7 @@ def save_content_to_file(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     except Exception as e:
         return f"Error: {e}"
 
+
 def modify_or_insert_content(sandbox, path, content, line_number, mode):
     existing_content = sandbox.filesystem.read(path)
     lines = existing_content.split("\n")
@@ -81,7 +82,6 @@ def modify_or_insert_content(sandbox, path, content, line_number, mode):
             lines[line_number] = content
 
     return "\n".join(lines)
-
 
 
 def list_files(sandbox: Sandbox, args: Dict[str, Any]) -> str:
