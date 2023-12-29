@@ -200,3 +200,24 @@ Remember, your role is to enhance the codebase with precision and care. Be profe
 
 if __name__ == "__main__":
     create_assistant()
+
+
+
+    {
+        "type": "function",
+        "function": {
+            "name": "git_reset",
+            "description": "Reset a repo to match a remote origin branch.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "working_branch": {
+                        "type": "string",
+                        "description": "The name of the branch to reset to. Defaults to 'main'.",
+                        "default": "main"
+                    }
+                },
+                "required": []
+            }
+        }
+    }

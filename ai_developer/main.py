@@ -77,7 +77,9 @@ def prompt_user_for_task(repo_url):
 
 
 def prompt_user_for_auth():
-    user_auth = MyPrompt.ask(
+
+    sandbox.add_action(git_reset)
+
         "\nProvide [bold]GitHub token[/bold] with following permissions:\n\n\u2022 read:org\n\u2022 read:project\n\u2022 repo\n\nFind or create your token at [bold #0096FF]https://github.com/settings/tokens[/bold #0096FF]\n\nToken:",
         password=True,
     )
