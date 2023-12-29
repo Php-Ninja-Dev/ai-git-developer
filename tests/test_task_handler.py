@@ -3,7 +3,6 @@ from ai_developer.task_handler import TaskHandler
 
 
 class TestTaskHandler:
-
     @pytest.fixture
     def task_handler(self, mocker):
         client = mocker.Mock()
