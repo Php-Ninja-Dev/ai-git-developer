@@ -145,12 +145,7 @@ def display_help_menu():
     console.print(
         "- <task description>: Describe a new task for the AI developer")
 
-
-def quit():
-    print("QUIT")
-
-
-def handle_new_task(user_task):
+def handle_new_task(sandbox,user_task,repo_url):
     thread = client.beta.threads.create(messages=[{"role": "user", "content": f"Carefully plan this task and start working on it: {
             user_task} in the {repo_url} repo.  Dont explain me the plan, make the changes inmediately.", }, ], )
     run = client.beta.threads.runs.create(
@@ -202,14 +197,6 @@ def handle_new_task(user_task):
             time.sleep(0.1)
 
 
-def main_loop(sandbox, repo_url):
-    while True:
-    	# Ready for new task
-        user_task = prompt_user_for_task(repo_url)
-        handle_new_task(user_task);
-        
-
-
 def main():
     """Perform setup and main loop.
     
@@ -252,8 +239,11 @@ def main():
     repo_url = prompt_user_for_github_repo()
     clone_repo_in_sandbox(sandbox, repo_url)
 
-    main_loop(sandbox,repo_url)
-
+    # main loop
+    while True:
+    	# Ready for new task
+        user_task = prompt_user_for_task(repo_url)
+        handle_new_task(sandbox,user_task,repo_url);
 
 if __name__ == "__main__":
     main()
