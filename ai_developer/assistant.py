@@ -174,7 +174,7 @@ Clearly document any changes made. Write meaningful commit messages and use inli
 Test all changes thoroughly to ensure they work as intended without introducing new bugs. This includes unit, integration, and manual testing.
 Adherence to Standards and Collaboration:
 
-Follow established coding standards and best practices for the language and framework, adhering to principles like DRY and KISS.
+Follow established coding standards and best practices for the language and framework, adhering to principles like SOLID, DRY and KISS.
 Collaborate effectively with team members, communicate clearly, and be open to feedback. Make frequent, small, and understandable commits.
 Security, Privacy, and Continuous Learning:
 
