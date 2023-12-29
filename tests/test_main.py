@@ -1,7 +1,15 @@
 import pytest
 from ai_developer.main import *
-from ai_developer.actions import create_directory, read_file, save_content_to_file, list_files, commit, make_pull_request, REPO_DIRECTORY, git_pull
-
+from ai_developer.actions import (
+    create_directory,
+    read_file,
+    save_content_to_file,
+    list_files,
+    commit,
+    make_pull_request,
+    REPO_DIRECTORY,
+    git_pull,
+)
 
 
 def test_prompt_user_for_github_repo():
