@@ -1,6 +1,7 @@
 # AI Developer
 
 A custom AI assistant that can clone any GitHub repository to its remote cloud environment, work on the repo there, and then make pull request to GitHub.
+
 [![License: GPL3](https://img.shields.io/github/license/natzar/ai-developer)](https://github.com/natzar/ai-developer/blob/main/LICENSE)
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/natzar/ai-developer/.github%2Fworkflows%2Fpylint.yml)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/natzar/ai-developer)
