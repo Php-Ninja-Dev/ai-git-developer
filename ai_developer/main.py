@@ -71,8 +71,7 @@ def prompt_user_for_task(repo_url):
     )
     user_task = (
         f"Please work with the codebase repo called {repo_url} "
-        f"that is cloned in the /home/user/repo directory. React on the following user's comment: {
-            user_task_specification}"
+        f"that is cloned in the /home/user/repo directory. React on the following user's comment: {user_task_specification}"
     )
     print("", end="\n")
     return user_task
@@ -112,9 +111,7 @@ def setup_git(sandbox, USER_GITHUB_TOKEN):
     # Setup user's Git credentials
     proc = sandbox.process.start_and_wait("gh auth setup-git")
     if proc.exit_code != 0:
-        print(
-            "[bold #FF0000][Sandbox] [/bold #FF0000]Error: Unable to set up Git auth with GitHub"
-        )
+        print("[bold #FF0000][Sandbox] [/bold #FF0000]Error: Unable to set up Git auth with GitHub")
         print(proc.stderr)
         print(proc.stdout)
         exit(1)
