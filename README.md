@@ -1,6 +1,6 @@
 # AI Developer
 
-A custom AI assistant that can clone any GitHub repository to its remote cloud environment, work on the repo there, and then make pull request to GitHub.
+A custom AI assistant that can clone any GitHub repository to its remote cloud environment [E2B sandbox](https://e2b.dev/docs), work on the repo there, and then make pull request to GitHub.
 
 [![License: GPL3](https://img.shields.io/github/license/natzar/ai-developer)](https://github.com/natzar/ai-developer/blob/main/LICENSE)
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/natzar/ai-developer/.github%2Fworkflows%2Fpylint.yml)
@@ -16,23 +16,32 @@ Based on [e2b dev cookbook example](https://github.com/e2b-dev/e2b-cookbook/tree
 - AI can clone the repo and edit, read, and write files
 - Controllable from your terminal
 - Powered by GPT-4-Turbo
-- Runs in secure cloud [sandbox](https://e2b.dev/docs) by E2B
+- Runs in secure cloud sandbox by E2B
 
-## Requirements
-- Python v3
-- Poetry: curl -sSL https://install.python-poetry.org | python3 -
-- Github CLI Client: https://github.com/cli/cli#installation 
+## Get Started
+
+Clone this repository or download the zip file and setup all requirements and api keys.
+
+### Setup api keys & tokens
 - OpenAi API key: https://platform.openai.com
-- Github Api key: https://github.com/settings/tokens
+- Github Token: https://github.com/settings/tokens
 - e2b api key: https://e2b.dev/docs/getting-started/api-key
 
-## How to start
+### Install dependencies
+- Poetry
+- Github CLI Client: https://github.com/cli/cli#installation 
+- Other dependencies installed from Poetry
 
-Clone this repository and setup all requirements and api keys.
-
-1. Open a terminal, change to the project's folder and run Poetry install & create-ai-assistant to create a new openai assistant 
 ```sh
+curl -sSL https://install.python-poetry.org | python3 -
+brew install gh
 poetry install
+```
+
+### Last Step: environment
+
+1. Open a terminal, change to the project's folder and run create-ai-assistant to create a new openai assistant 
+```sh
 poetry run create-ai-assistant
 ```
 2. Copy the assistant ID from the console output
