@@ -1,8 +1,8 @@
 import time
 
 
-#plugin_system = PluginSystem()
-       
+# plugin_system = PluginSystem()
+
 
 class TaskHandler:
     def __init__(self, client, sandbox, assistant, console):
