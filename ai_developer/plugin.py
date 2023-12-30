@@ -26,4 +26,3 @@ class PluginSystem:
             for function in self.filters[hook_name]:
                 value = function(value, *args)
         return value
-

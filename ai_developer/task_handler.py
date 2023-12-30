@@ -10,7 +10,7 @@ class TaskHandler:
         self.sandbox = sandbox
         self.console = console
         self.assistant = assistant
-        plugin_system.do_action('init_task_handler', self)
+        # plugin_system.do_action("init_task_handler", self)
 
     def handle_new_task(self, user_task, repo_url):
         thread_id = self.create_thread(user_task, repo_url)
