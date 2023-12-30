@@ -1,17 +1,27 @@
+import ftplib
+
+
 class WPDeveloper:
     def __init__(self):
+        self.ftp = None
+
+    def connect_ftp(self, host, username, password):
+        try:
+            self.ftp = ftplib.FTP(host)
+            self.ftp.login(user=username, passwd=password)
+        except Exception as e:
+            print(f"FTP connection failed: {e}")
+
+    def login_wp_admin(self, url, username, password):
+        # This method can be implemented using Requests and BeautifulSoup
         pass
 
-    def connect_ftp(self):
+    def enable_wp_debug(self, wp_config_path):
+        # This method will update the wp-config.php file.
         pass
 
-    def login_wp_admin(self):
-        pass
-
-    def enable_wp_debug(self):
-        pass
-
-    def update_plugin(self):
+    def update_plugin(self, plugin_name, version):
+        # This method will update a plugin in WordPress
         pass
 
     def disable_plugin(self, plugin_name):
