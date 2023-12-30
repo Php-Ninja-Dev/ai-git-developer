@@ -18,7 +18,7 @@ class TaskHandler:
             messages=[
                 {
                     "role": "user",
-                    "content": f"Carefully plan this task and start working on it: {user_task} in the {repo_url} repo. Don't explain me the plan, start working on it immediately.",
+                    "content": f"Carefully plan this task and start working on it: {user_task} in the {repo_url} repo. Dont explain me the plan, make the changes immediately.",
                 }
             ],
         )
