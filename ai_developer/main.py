@@ -28,8 +28,10 @@ from ai_developer.actions import (
 
 user_repo = None
 
+
 class MyPrompt(Prompt):
     prompt_suffix = ""
+
 
 custom_theme = Theme(
     {
