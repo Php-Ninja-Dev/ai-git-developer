@@ -11,11 +11,8 @@ from rich import print
 from rich.console import Console
 from rich.theme import Theme
 from rich.prompt import Prompt
-
 import openai
-
 from ai_developer.task_handler import TaskHandler
-
 from ai_developer.actions import (
     create_directory,
     read_file,
@@ -27,10 +24,12 @@ from ai_developer.actions import (
     git_pull,
 )
 
+# Defaults
+
+user_repo = None
 
 class MyPrompt(Prompt):
     prompt_suffix = ""
-
 
 custom_theme = Theme(
     {
@@ -39,16 +38,14 @@ custom_theme = Theme(
 )
 console = Console(theme=custom_theme)
 
-
-AI_ASSISTANT_ID = None
-user_repo = None
-
+# Load .env data
 load_dotenv()
+
+# Open AI
 client = openai.Client()
 
-AI_ASSISTANT_ID = os.getenv("AI_ASSISTANT_ID")
-
-assistant = client.beta.assistants.retrieve(AI_ASSISTANT_ID)
+# Open AI assistant
+assistant = client.beta.assistants.retrieve(os.getenv("AI_ASSISTANT_ID"))
 
 
 def prompt_user_for_github_repo():
