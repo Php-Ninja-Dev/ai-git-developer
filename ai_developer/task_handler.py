@@ -1,8 +1,7 @@
 import time
 
-from ai_developer.plugin import PluginSystem
 
-plugin_system = PluginSystem()
+#plugin_system = PluginSystem()
        
 
 class TaskHandler:
@@ -47,14 +46,13 @@ class TaskHandler:
         while True:
             if self.has_status_changed(run, previous_status):
                 self.display_status(run)
-                plugin_system.do_action(run.status, self)
 
             if run.status == "requires_action":
                 self.handle_action_required(thread_id, run)
             elif run.status == "completed":
                 self.handle_completion(thread_id)
                 break
-            elif run.status in ["cancelled", "cancelling", "expired", "failed"]:            	
+            elif run.status in ["cancelled", "cancelling", "expired", "failed"]:
                 break
             elif run.status in ["queued", "in_progress"]:
                 pass

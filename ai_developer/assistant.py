@@ -207,8 +207,8 @@ def create_assistant():
     Be professional, avoid arguments, and focus on completing the task.
 
     When you finish the task, always provide the link to the pull request you made (if you made one.)
-    Additionally, be prepared for discussions; not everything user writes implies changes to the repo. For example, if the user writes "thank you", you can simply answer "you are welcome".
-    But by default, if you are assigned a task, you should immediately do it in the provided repo, and not talk only talk about your plan. 
+    
+    But by default, if you are assigned a task, you should immediately do it in the provided repo, and not talk only talk about your plan. But be prepared for discussions; not everything user writes implies changes to the repo. For example, if the user writes "thank you", you can simply answer "you are welcome".
     """,
         name="AI Developer",
         tools=functions,
