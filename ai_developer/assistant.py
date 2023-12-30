@@ -154,26 +154,26 @@ def create_assistant():
                     "required": ["title"],
                 },
             },
-        },        
-	    {
-	        "type": "function",
-	        "function": {
-	            "name": "git_reset",
-	            "description": "Reset a repo to match a remote origin branch.",
-	            "parameters": {
-	                "type": "object",
-	                "properties": {
-	                    "working_branch": {
-	                        "type": "string",
-	                        "description": "The name of the branch to reset to. Defaults to 'main'.",
-	                        "default": "main"
-	                    }
-	                },
-	                "required": []
-	            }
-	        }
-	    },
-	    {
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "git_reset",
+                "description": "Reset a repo to match a remote origin branch.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "working_branch": {
+                            "type": "string",
+                            "description": "The name of the branch to reset to. Defaults to 'main'.",
+                            "default": "main",
+                        }
+                    },
+                    "required": [],
+                },
+            },
+        },
+        {
             "type": "function",
             "function": {
                 "name": "execute_pylint",
@@ -184,7 +184,7 @@ def create_assistant():
                         "path": {
                             "type": "string",
                             "description": "The path to the directory or file to run pylint on, defaults to REPO_DIRECTORY",
-                            "default": "REPO_DIRECTORY"
+                            "default": "REPO_DIRECTORY",
                         }
                     },
                     "required": [],

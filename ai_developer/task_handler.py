@@ -3,7 +3,7 @@ import time
 from ai_developer.plugin import PluginSystem
 
 plugin_system = PluginSystem()
-       
+
 
 class TaskHandler:
     def __init__(self, client, sandbox, assistant, console):
@@ -11,7 +11,7 @@ class TaskHandler:
         self.sandbox = sandbox
         self.console = console
         self.assistant = assistant
-        plugin_system.do_action('init_task_handler', self)
+        plugin_system.do_action("init_task_handler", self)
 
     def handle_new_task(self, user_task, repo_url):
         thread_id = self.create_thread(user_task, repo_url)
@@ -54,7 +54,7 @@ class TaskHandler:
             elif run.status == "completed":
                 self.handle_completion(thread_id)
                 break
-            elif run.status in ["cancelled", "cancelling", "expired", "failed"]:            	
+            elif run.status in ["cancelled", "cancelling", "expired", "failed"]:
                 break
             elif run.status in ["queued", "in_progress"]:
                 pass
