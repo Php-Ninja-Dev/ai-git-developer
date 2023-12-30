@@ -154,11 +154,47 @@ def create_assistant():
                     "required": ["title"],
                 },
             },
+        },        
+	    {
+	        "type": "function",
+	        "function": {
+	            "name": "git_reset",
+	            "description": "Reset a repo to match a remote origin branch.",
+	            "parameters": {
+	                "type": "object",
+	                "properties": {
+	                    "working_branch": {
+	                        "type": "string",
+	                        "description": "The name of the branch to reset to. Defaults to 'main'.",
+	                        "default": "main"
+	                    }
+	                },
+	                "required": []
+	            }
+	        }
+	    },
+	    {
+            "type": "function",
+            "function": {
+                "name": "execute_pylint",
+                "description": "Executes pylint and prints out the output",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "path": {
+                            "type": "string",
+                            "description": "The path to the directory or file to run pylint on, defaults to REPO_DIRECTORY",
+                            "default": "REPO_DIRECTORY"
+                        }
+                    },
+                    "required": [],
+                },
+            },
         },
     ]
 
     ai_developer = client.beta.assistants.create(
-        instructions="""ou are an AI developer. You help user work on their tasks related to coding in their codebase. The provided codebase is in the /home/user/repo.
+        instructions="""You are an AI developer. You help user work on their tasks related to coding in their codebase. The provided codebase is in the /home/user/repo.
     When given a coding task, work on it until completion, commit it, and make pull request.
 
     If you encounter a problem, communicate it promptly, please.
@@ -172,7 +208,8 @@ def create_assistant():
 
     When you finish the task, always provide the link to the pull request you made (if you made one.)
     Additionally, be prepared for discussions; not everything user writes implies changes to the repo. For example, if the user writes "thank you", you can simply answer "you are welcome".
-    But by default, if you are assigned a task, you should immediately do it in the provided repo, and not talk only talk about your plan. """,
+    But by default, if you are assigned a task, you should immediately do it in the provided repo, and not talk only talk about your plan. 
+    """,
         name="AI Developer",
         tools=functions,
         model="gpt-4-1106-preview",

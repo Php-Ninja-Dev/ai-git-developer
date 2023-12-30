@@ -22,6 +22,8 @@ from ai_developer.actions import (
     make_pull_request,
     REPO_DIRECTORY,
     git_pull,
+    git_reset,
+    execute_pylint
 )
 
 # Defaults
@@ -173,7 +175,7 @@ def main():
         make_pull_request
     ).add_action(
         git_pull
-    )
+    ).add_action(git_reset).add_action(execute_pylint)
 
     # Setup git right away so user knows immediatelly if they passed wrong
     # token

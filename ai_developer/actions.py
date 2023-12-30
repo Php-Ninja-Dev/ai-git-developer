@@ -191,7 +191,51 @@ def git_pull(sandbox: Sandbox, args: Dict[str, Any]) -> str:
     except Exception as e:
         return f"Error: {e}"
 
+def git_reset(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    repo_directory = "/home/user/repo"
+    working_branch = args.get("working_branch", "main")
+    print_sandbox_action("Resetting repo to branch in origin", working_branch)
 
+    try:
+        # Fetch the latest changes from origin
+        git_fetch_proc = sandbox.process.start_and_wait(f"git -C {repo_directory} fetch origin")
+        if git_fetch_proc.exit_code != 0:
+            error = f"Error fetching from origin: {git_fetch_proc.stdout}\n\t{git_fetch_proc.stderr}"
+            console.print("\t[bold red]Error:[/bold red]", error)
+            return error
+
+        # Reset the local branch to match the origin branch
+        git_reset_proc = sandbox.process.start_and_wait(f"git -C {repo_directory} reset --hard origin/{working_branch}")
+        if git_reset_proc.exit_code != 0:
+            error = f"Error resetting branch '{working_branch}': {git_reset_proc.stdout}\n\t{git_reset_proc.stderr}"
+            console.print("\t[bold red]Error:[/bold red]", error)
+            return error
+
+        # Clean up any untracked files
+        git_clean_proc = sandbox.process.start_and_wait(f"git -C {repo_directory} clean -fd")
+        if git_clean_proc.exit_code != 0:
+            error = f"Error cleaning untracked files: {git_clean_proc.stdout}\n\t{git_clean_proc.stderr}"
+            console.print("\t[bold red]Error:[/bold red]", error)
+            return error
+
+        return "success"
+    except Exception as e:
+        return f"Error: {e}"
+
+def execute_pylint(sandbox: Sandbox, args: Dict[str, Any]) -> str:
+    path = args.get("path", REPO_DIRECTORY)
+    print_sandbox_action("Running pylint on", path)
+
+    pylint_cmd = f'pylint {path}'
+    pylint_proc = sandbox.process.start_and_wait(pylint_cmd)
+    if pylint_proc.exit_code != 0:
+        error = pylint_proc.stderr.strip()
+        console.print("[bold red]Pylint Errors:[/bold red]", error)
+        return error
+
+    output = pylint_proc.stdout.strip()
+    console.print("[bold green]Pylint Output:[/bold green]\n", output)
+    return output        
 # Ideas for new actions:
 # - Automated code formatting checks
 # - Security vulnerability scanning
