@@ -47,14 +47,7 @@ def test_handle_sandbox_stderr():
     assert True
 
 
-def test_display_help_menu():
-    # TODO: Implement test
-    assert True
 
-
-def test_quit():
-    # TODO: Implement test
-    assert True
 
 
 def test_main():
