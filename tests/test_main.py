@@ -47,9 +47,6 @@ def test_handle_sandbox_stderr():
     assert True
 
 
-
-
-
 def test_main():
     # TODO: Implement test
     assert True
